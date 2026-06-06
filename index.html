@@ -73,7 +73,18 @@
                     </div>
                 </div>
 
-                <a href="#ep01" class="btn-primary">Ver Ejercicios <span class="arrow"><i data-lucide="arrow-right"></i></span></a>
+                <!-- Enlaces para el PDF impreso -->
+                <div class="print-only-links" style="display: none; margin-top: 1.5rem; font-family: monospace; font-size: 0.9rem; color: #4b5563; line-height: 1.5;">
+                    <p><strong>Repositorio GitHub:</strong> https://github.com/Tiburonchin/ROBOTICA-Y-AUTOMATIZACI-N</p>
+                    <p><strong>Página Web Directa:</strong> https://tiburonchin.github.io/ROBOTICA-Y-AUTOMATIZACI-N/</p>
+                </div>
+
+                <div class="hero-actions no-print" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="#ep01" class="btn-primary">Ver Ejercicios <span class="arrow"><i data-lucide="arrow-right"></i></span></a>
+                    <button onclick="window.print()" class="btn-primary" style="background-color: var(--accent-sand); border: 1px solid var(--border-color); color: var(--secondary-sage);">
+                        <i data-lucide="file-text"></i> Generar Reporte PDF
+                    </button>
+                </div>
             </div>
 
             <!-- Columna Gráfica / 3D con Spline-Viewer -->

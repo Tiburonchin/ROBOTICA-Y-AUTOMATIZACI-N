@@ -745,3 +745,151 @@ canvas {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* Estilos de Impresión para PDF Académico */
+@media print {
+    /* Ocultar elementos interactivos, navegación y widgets */
+    .navbar, 
+    .hero-graphic, 
+    .btn-primary, 
+    .calculator-box, 
+    .chart-container, 
+    .main-footer,
+    .canvas-container,
+    .no-print {
+        display: none !important;
+    }
+
+    /* Mostrar enlaces ocultos del repositorio */
+    .print-only-links {
+        display: block !important;
+    }
+
+    /* Reset de fondo y colores para impresión en papel / PDF limpio */
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-size: 11pt !important;
+    }
+
+    .hero-section {
+        min-height: auto !important;
+        padding-top: 10px !important;
+        background: none !important;
+    }
+
+    .hero-container {
+        grid-template-columns: 1fr !important;
+        gap: 0 !important;
+    }
+
+    .hero-title {
+        color: #000000 !important;
+        font-size: 26pt !important;
+    }
+
+    .hero-subtitle {
+        color: #374151 !important;
+        font-size: 11pt !important;
+    }
+
+    .info-card {
+        background: #f9fafb !important;
+        border: 1px solid #d1d5db !important;
+        box-shadow: none !important;
+        max-width: 100% !important;
+        color: #000000 !important;
+    }
+
+    .info-value {
+        color: #000000 !important;
+    }
+
+    .main-content {
+        padding: 0 !important;
+    }
+
+    /* Estructurar secciones de ejercicio sin cards oscuras */
+    .exercise-section {
+        background: #ffffff !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin-bottom: 2rem !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    /* Salto de página para cada sección excepto la primera */
+    .exercise-section:not(#ep01) {
+        page-break-before: always;
+        break-before: page;
+    }
+
+    .exercise-section h2 {
+        color: #000000 !important;
+        border-bottom: 2px solid #000000;
+        padding-bottom: 5px;
+        margin-bottom: 1.5rem !important;
+        font-size: 18pt !important;
+    }
+
+    .section-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+    }
+
+    .card-subsection {
+        background: #f9fafb !important;
+        border: 1px solid #d1d5db !important;
+        padding: 1.5rem !important;
+    }
+
+    .card-subsection h3 {
+        color: #000000 !important;
+        font-size: 13pt !important;
+    }
+
+    .theory-text {
+        color: #1f2937 !important;
+    }
+
+    .question-list li {
+        color: #1f2937 !important;
+    }
+
+    /* Caja de Resultados Analíticos */
+    .pdf-results-box {
+        background: #f3f4f6 !important;
+        border: 1px solid #000000 !important;
+        border-left: 6px solid #000000 !important;
+        color: #000000 !important;
+        box-shadow: none !important;
+        padding: 1.5rem !important;
+        margin-top: 2rem !important;
+    }
+
+    .pdf-results-box h4 {
+        color: #000000 !important;
+    }
+
+    .pdf-res-grid strong {
+        color: #000000 !important;
+    }
+
+    /* Resoluciones Matemáticas */
+    .step {
+        color: #1f2937 !important;
+    }
+
+    .step-num {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+    }
+
+    .step code {
+        background: #f3f4f6 !important;
+        border: 1px solid #d1d5db !important;
+        color: #000000 !important;
+    }
+}
