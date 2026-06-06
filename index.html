@@ -9,6 +9,10 @@
     <!-- GSAP & ScrollTrigger -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Styles -->
     <link rel="stylesheet" href="style.css">
 </head>
@@ -39,20 +43,20 @@
                 <span class="hero-tag">Ciclo Académico 2026</span>
                 <h1 class="hero-title">Robótica & Automatización de Procesos</h1>
                 <p class="hero-subtitle">
-                    Exploración y resolución analítica de sistemas neumáticos, garras de sujeción y control secuencial en células de manufactura.
+                    Exploración y resolución analítica de sistemas neumáticos, garras de sujeción y control secuencial en células de manufactura con simulaciones dinámicas interactivas.
                 </p>
                 
                 <!-- Tarjeta del Alumno -->
                 <div class="info-card">
                     <div class="info-row">
-                        <span class="info-icon">👨‍🎓</span>
+                        <span class="info-icon"><i data-lucide="user"></i></span>
                         <div>
                             <span class="info-label">Alumno</span>
                             <span class="info-value">Edgar Alexis Ramos Trujillo</span>
                         </div>
                     </div>
                     <div class="info-row">
-                        <span class="info-icon">👩‍🏫</span>
+                        <span class="info-icon"><i data-lucide="award"></i></span>
                         <div>
                             <span class="info-label">Profesora</span>
                             <span class="info-value">Dra. Luzbeth Karin Navarrete Leal</span>
@@ -60,7 +64,7 @@
                     </div>
                 </div>
 
-                <a href="#ep01" class="btn-primary">Ver Ejercicios <span class="arrow">→</span></a>
+                <a href="#ep01" class="btn-primary">Ver Ejercicios <span class="arrow"><i data-lucide="arrow-right"></i></span></a>
             </div>
 
             <!-- Columna Gráfica / Natural -->
@@ -69,7 +73,7 @@
                     <div class="blob blob-1"></div>
                     <div class="blob blob-2"></div>
                     <div class="blob-card">
-                        <span class="card-icon">🍃</span>
+                        <span class="card-icon"><i data-lucide="cpu" class="text-green"></i></span>
                         <h3>Diseño Eficiente</h3>
                         <p>Optimización del consumo neumático y fuerzas de agarre con enfoque biomimético y sostenible.</p>
                     </div>
@@ -83,72 +87,80 @@
         
         <!-- EP-01 Garra Paralela -->
         <section id="ep01" class="exercise-section">
+            <span class="exercise-badge">Ejercicio 1</span>
+            <h2>EP-01 Garra Paralela - Selección</h2>
+            
             <div class="section-grid">
-                <!-- Columna Detalles e Imagen -->
-                <div class="exercise-visual">
-                    <div class="image-wrapper">
-                        <img src="assets/parallel_gripper.png" alt="Garra Paralela" class="exercise-img">
-                        <div class="image-overlay"></div>
+                <!-- Enunciado, Pregunta y Resolución -->
+                <div class="exercise-theory">
+                    <div class="card-subsection">
+                        <h3><i data-lucide="help-circle"></i> Pregunta</h3>
+                        <p class="theory-text">
+                            Se requiere una garra paralela para manipular botellas de vidrio de <strong>0.5 kg</strong> en una línea de embotellado. La aceleración máxima del brazo robótico es <strong>3 m/s²</strong>. La presión disponible es <strong>5.5 bar</strong>. Con <strong>FS = 2.0</strong> y <strong>η = 0.82</strong>, calcule:
+                        </p>
+                        <ul class="question-list">
+                            <li><strong>(a)</strong> Fuerza mínima requerida.</li>
+                            <li><strong>(b)</strong> Área mínima del pistón.</li>
+                            <li><strong>(c)</strong> Diámetro mínimo del pistón.</li>
+                        </ul>
                     </div>
-                    <div class="exercise-meta">
-                        <h3>Garra Paralela de Selección</h3>
-                        <p>Diseñada para una sujeción uniforme aplicando fuerzas perpendiculares simétricas sobre el cuerpo de la botella de vidrio.</p>
+
+                    <div class="card-subsection mt-4">
+                        <h3><i data-lucide="book-open"></i> Resolución</h3>
+                        <div class="math-steps">
+                            <div class="step">
+                                <span class="step-num">1</span>
+                                <p><strong>Fuerza Dinámica Total:</strong> Considera la gravedad (g = 9.81 m/s²) y la aceleración del robot:<br>
+                                <code>F_din = m · (g + a) = 0.5 kg · (9.81 + 3) m/s² = 6.405 N</code></p>
+                            </div>
+                            <div class="step">
+                                <span class="step-num">2</span>
+                                <p><strong>Fuerza Mínima con FS:</strong><br>
+                                <code>F_req = F_din · FS = 6.405 N · 2.0 = 12.81 N</code></p>
+                            </div>
+                            <div class="step">
+                                <span class="step-num">3</span>
+                                <p><strong>Área Mínima del Pistón:</strong> Ajustado por eficiencia (η = 0.82) y presión en Pascales (5.5 bar = 550,000 Pa):<br>
+                                <code>A_min = F_req / (P · η) = 12.81 / (550,000 · 0.82) = 2.84e-5 m² = 28.40 mm²</code></p>
+                            </div>
+                            <div class="step">
+                                <span class="step-num">4</span>
+                                <p><strong>Diámetro Mínimo:</strong><br>
+                                <code>D_min = √(4 · A_min / π) = 6.01 mm</code></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Columna Enunciado y Calculadora -->
-                <div class="exercise-details">
-                    <span class="exercise-badge">Ejercicio 1</span>
-                    <h2>EP-01 Garra Paralela</h2>
-                    <p class="exercise-desc">
-                        Se requiere una garra paralela para manipular botellas de vidrio de <strong>0.5 kg</strong> en una línea de embotellado. La aceleración máxima del brazo robótico es <strong>3 m/s²</strong>. La presión disponible es <strong>5.5 bar</strong>. Con <strong>FS = 2.0</strong> y <strong>η = 0.82</strong>, calcule la fuerza mínima requerida, área mínima del pistón y diámetro mínimo del pistón.
-                    </p>
-
-                    <!-- Calculadora Interactiva -->
+                <!-- Simulación Interactiva y Gráficas -->
+                <div class="exercise-interactive">
+                    <!-- Widgets de Control -->
                     <div class="calculator-box">
-                        <div class="input-grid">
-                            <div class="input-group">
-                                <label>Masa (m)</label>
-                                <div class="input-wrapper">
-                                    <input type="number" id="m1" value="0.5" step="0.1">
-                                    <span class="unit">kg</span>
-                                </div>
-                            </div>
-                            <div class="input-group">
-                                <label>Aceleración (a)</label>
-                                <div class="input-wrapper">
-                                    <input type="number" id="a1" value="3" step="0.5">
-                                    <span class="unit">m/s²</span>
-                                </div>
-                            </div>
-                            <div class="input-group">
-                                <label>Presión (P)</label>
-                                <div class="input-wrapper">
-                                    <input type="number" id="p1" value="5.5" step="0.5">
-                                    <span class="unit">bar</span>
-                                </div>
-                            </div>
+                        <h3><i data-lucide="sliders"></i> Control de Parámetros</h3>
+                        <div class="slider-group">
+                            <div class="slider-label"><span>Masa (m):</span> <span id="val-m1">0.5</span> kg</div>
+                            <input type="range" id="slide-m1" min="0.1" max="5" step="0.1" value="0.5" oninput="actualizarEP01()">
                         </div>
-
-                        <button class="btn-calculate" onclick="calcularEP01()">Actualizar Cálculo</button>
-
-                        <div class="results-grid">
-                            <div class="result-card">
-                                <span class="res-title">Fuerza Mínima (F_req)</span>
-                                <span class="res-val" id="res-f1">--</span>
-                                <span class="res-unit">N</span>
-                            </div>
-                            <div class="result-card">
-                                <span class="res-title">Área Mínima (A_min)</span>
-                                <span class="res-val" id="res-a1">--</span>
-                                <span class="res-unit">mm²</span>
-                            </div>
-                            <div class="result-card highlight">
-                                <span class="res-title">Diámetro Mínimo (D_min)</span>
-                                <span class="res-val" id="res-d1">--</span>
-                                <span class="res-unit">mm</span>
-                            </div>
+                        <div class="slider-group">
+                            <div class="slider-label"><span>Aceleración (a):</span> <span id="val-a1">3.0</span> m/s²</div>
+                            <input type="range" id="slide-a1" min="0" max="15" step="0.5" value="3" oninput="actualizarEP01()">
                         </div>
+                        <div class="slider-group">
+                            <div class="slider-label"><span>Presión (P):</span> <span id="val-p1">5.5</span> bar</div>
+                            <input type="range" id="slide-p1" min="1" max="10" step="0.5" value="5.5" oninput="actualizarEP01()">
+                        </div>
+                    </div>
+
+                    <!-- Animación Canvas -->
+                    <div class="canvas-container mt-4">
+                        <span class="canvas-title"><i data-lucide="play-circle"></i> Animación del Agarre</span>
+                        <canvas id="canvas-ep01" width="400" height="250"></canvas>
+                        <button class="btn-primary w-full mt-2" onclick="simularEP01()">Simular Agarre</button>
+                    </div>
+
+                    <!-- Gráfico Chart.js -->
+                    <div class="chart-container mt-4">
+                        <canvas id="chart-ep01"></canvas>
                     </div>
                 </div>
             </div>
@@ -156,38 +168,70 @@
 
         <!-- EP-02 Garra Angular -->
         <section id="ep02" class="exercise-section">
+            <span class="exercise-badge">Ejercicio 2</span>
+            <h2>EP-02 Garra Angular - Verificación</h2>
+            
             <div class="section-grid reverse">
-                <div class="exercise-details">
-                    <span class="exercise-badge">Ejercicio 2</span>
-                    <h2>EP-02 Garra Angular</h2>
-                    <p class="exercise-desc">
-                        Una garra angular existente tiene pistón Ø 25 mm, trabaja a 4 bar, η = 0.78 y K_brazo = 0.65. Se le quiere asignar una tarea de sujetar piezas de 2 kg con aceleración de robot 5 m/s². Determine si la garra es apta con FS = 2.0. Si no lo es, ¿qué presión mínima sería necesaria?
-                    </p>
+                <div class="exercise-theory">
+                    <div class="card-subsection">
+                        <h3><i data-lucide="help-circle"></i> Pregunta</h3>
+                        <p class="theory-text">
+                            Una garra angular existente tiene pistón <strong>Ø 25 mm</strong>, trabaja a <strong>4 bar</strong>, <strong>η = 0.78</strong> y <strong>K_brazo = 0.65</strong>. Se le quiere asignar una tarea de sujetar piezas de <strong>2 kg</strong> con aceleración de robot <strong>5 m/s²</strong>. Determine si la garra es apta con <strong>FS = 2.0</strong>. Si no lo es, ¿qué presión mínima sería necesaria?
+                        </p>
+                    </div>
 
-                    <div class="calculator-box">
-                        <button class="btn-calculate" onclick="calcularEP02()">Ejecutar Verificación</button>
-                        <div class="results-grid">
-                            <div class="result-card">
-                                <span class="res-title">Fuerza Disponible</span>
-                                <span class="res-val" id="res-fdisp2">--</span>
-                                <span class="res-unit">N</span>
+                    <div class="card-subsection mt-4">
+                        <h3><i data-lucide="book-open"></i> Resolución</h3>
+                        <div class="math-steps">
+                            <div class="step">
+                                <span class="step-num">1</span>
+                                <p><strong>Fuerza Requerida:</strong><br>
+                                <code>F_req = m · (g + a) · FS = 2 · (9.81 + 5) · 2.0 = 59.24 N</code></p>
                             </div>
-                            <div class="result-card">
-                                <span class="res-title">Fuerza Requerida</span>
-                                <span class="res-val" id="res-freq2">--</span>
-                                <span class="res-unit">N</span>
+                            <div class="step">
+                                <span class="step-num">2</span>
+                                <p><strong>Área del Pistón Existente:</strong><br>
+                                <code>A = π · D² / 4 = π · 25² / 4 = 490.87 mm² = 4.9087e-4 m²</code></p>
                             </div>
-                            <div class="result-card highlight" id="veredicto-card">
-                                <span class="res-title">Estado de Aptitud</span>
-                                <span class="res-val text-sm" id="res-apto2">--</span>
-                                <span class="res-unit" id="res-pres2">--</span>
+                            <div class="step">
+                                <span class="step-num">3</span>
+                                <p><strong>Fuerza Disponible en la Garra:</strong><br>
+                                <code>F_disp = P · A · η · K_brazo = 400,000 Pa · 4.9087e-4 m² · 0.78 · 0.65 = 99.55 N</code></p>
+                            </div>
+                            <div class="step">
+                                <span class="step-num">4</span>
+                                <p><strong>Conclusión:</strong> Como <strong>99.55 N &gt; 59.24 N</strong>, la garra es <strong>APTA</strong>. En caso contrario, la presión mínima requerida se calcularía como:<br>
+                                <code>P_min = F_req / (A · η · K_brazo)</code></p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="exercise-visual">
-                    <div class="image-wrapper">
-                        <div class="placeholder-icon">📐</div>
+
+                <div class="exercise-interactive">
+                    <div class="calculator-box">
+                        <h3><i data-lucide="sliders"></i> Control de Parámetros</h3>
+                        <div class="slider-group">
+                            <div class="slider-label"><span>Masa de Pieza:</span> <span id="val-m2">2.0</span> kg</div>
+                            <input type="range" id="slide-m2" min="0.5" max="5" step="0.1" value="2" oninput="actualizarEP02()">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-label"><span>Aceleración:</span> <span id="val-a2">5.0</span> m/s²</div>
+                            <input type="range" id="slide-a2" min="0" max="15" step="0.5" value="5" oninput="actualizarEP02()">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-label"><span>Presión Actual:</span> <span id="val-p2">4.0</span> bar</div>
+                            <input type="range" id="slide-p2" min="1" max="10" step="0.5" value="4" oninput="actualizarEP02()">
+                        </div>
+                    </div>
+
+                    <div class="canvas-container mt-4">
+                        <span class="canvas-title"><i data-lucide="play-circle"></i> Animación Garra Angular</span>
+                        <canvas id="canvas-ep02" width="400" height="250"></canvas>
+                        <button class="btn-primary w-full mt-2" onclick="simularEP02()">Verificar y Simular</button>
+                    </div>
+
+                    <div class="chart-container mt-4">
+                        <canvas id="chart-ep02"></canvas>
                     </div>
                 </div>
             </div>
@@ -195,38 +239,66 @@
 
         <!-- EP-03 Mesa XY Selección -->
         <section id="ep03" class="exercise-section">
+            <span class="exercise-badge">Ejercicio 3</span>
+            <h2>EP-03 Mesa XY - Selección de Cilindros</h2>
+            
             <div class="section-grid">
-                <div class="exercise-visual">
-                    <div class="image-wrapper">
-                        <div class="placeholder-icon">⚙️</div>
+                <div class="exercise-theory">
+                    <div class="card-subsection">
+                        <h3><i data-lucide="help-circle"></i> Pregunta</h3>
+                        <p class="theory-text">
+                            Diseñar una mesa XY para posicionar un módulo de soldadura de <strong>8 kg</strong>. Eje X: carrera <strong>400 mm</strong>, aceleración <strong>1.5 m/s²</strong>. Eje Y: carrera <strong>200 mm</strong>, aceleración <strong>1.5 m/s²</strong>. Presión: <strong>6 bar</strong>, <strong>η = 0.90</strong>, <strong>FS = 2.0</strong>. Determine el diámetro del émbolo para cada eje y la fuerza real disponible.
+                        </p>
                     </div>
-                </div>
-                <div class="exercise-details">
-                    <span class="exercise-badge">Ejercicio 3</span>
-                    <h2>EP-03 Mesa XY: Selección</h2>
-                    <p class="exercise-desc">
-                        Diseñar una mesa XY para posicionar un módulo de soldadura de 8 kg. Eje X: carrera 400 mm, aceleración 1.5 m/s². Eje Y: carrera 200 mm, aceleración 1.5 m/s². Presión: 6 bar, η = 0.90, FS = 2.0. Determine el diámetro del émbolo para cada eje y la fuerza real disponible.
-                    </p>
 
-                    <div class="calculator-box">
-                        <button class="btn-calculate" onclick="calcularEP03()">Calcular Diámetros</button>
-                        <div class="results-grid">
-                            <div class="result-card">
-                                <span class="res-title">Fuerza Requerida</span>
-                                <span class="res-val" id="res-freq3">--</span>
-                                <span class="res-unit">N</span>
+                    <div class="card-subsection mt-4">
+                        <h3><i data-lucide="book-open"></i> Resolución</h3>
+                        <div class="math-steps">
+                            <div class="step">
+                                <span class="step-num">1</span>
+                                <p><strong>Fuerza Dinámica Requerida (Mov. Horizontal):</strong><br>
+                                <code>F_req = m · a · FS = 8 kg · 1.5 m/s² · 2.0 = 24.0 N</code></p>
                             </div>
-                            <div class="result-card">
-                                <span class="res-title">Diámetro Mínimo</span>
-                                <span class="res-val" id="res-dmin3">--</span>
-                                <span class="res-unit">mm</span>
+                            <div class="step">
+                                <span class="step-num">2</span>
+                                <p><strong>Área Mínima del Embolo:</strong><br>
+                                <code>A_min = F_req / (P · η) = 24.0 / (600,000 · 0.90) = 4.44e-5 m² = 44.44 mm²</code></p>
                             </div>
-                            <div class="result-card highlight">
-                                <span class="res-title">Fuerza Real (D=10mm)</span>
-                                <span class="res-val" id="res-freal3">--</span>
-                                <span class="res-unit">N</span>
+                            <div class="step">
+                                <span class="step-num">3</span>
+                                <p><strong>Diámetro Mínimo:</strong><br>
+                                <code>D_min = √(4 · A_min / π) = 7.52 mm</code></p>
+                            </div>
+                            <div class="step">
+                                <span class="step-num">4</span>
+                                <p><strong>Fuerza Real con Diámetro Estándar Comercial (e.g. D = 10 mm):</strong><br>
+                                <code>F_real = P · A_real · η = 600,000 · (π · 0.01² / 4) · 0.90 = 42.41 N</code></p>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="exercise-interactive">
+                    <div class="calculator-box">
+                        <h3><i data-lucide="sliders"></i> Control de Parámetros</h3>
+                        <div class="slider-group">
+                            <div class="slider-label"><span>Masa del Módulo:</span> <span id="val-m3">8.0</span> kg</div>
+                            <input type="range" id="slide-m3" min="1" max="25" step="0.5" value="8" oninput="actualizarEP03()">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-label"><span>Aceleración:</span> <span id="val-a3">1.5</span> m/s²</div>
+                            <input type="range" id="slide-a3" min="0.5" max="5" step="0.1" value="1.5" oninput="actualizarEP03()">
+                        </div>
+                    </div>
+
+                    <div class="canvas-container mt-4">
+                        <span class="canvas-title"><i data-lucide="play-circle"></i> Posicionador Mesa XY</span>
+                        <canvas id="canvas-ep03" width="400" height="250"></canvas>
+                        <button class="btn-primary w-full mt-2" onclick="simularEP03()">Mover Mesa XY</button>
+                    </div>
+
+                    <div class="chart-container mt-4">
+                        <canvas id="chart-ep03"></canvas>
                     </div>
                 </div>
             </div>
@@ -234,38 +306,71 @@
 
         <!-- EP-04 Mesa XY Tiempo de Ciclo -->
         <section id="ep04" class="exercise-section">
+            <span class="exercise-badge">Ejercicio 4</span>
+            <h2>EP-04 Mesa XY - Tiempo de Ciclo</h2>
+            
             <div class="section-grid reverse">
-                <div class="exercise-details">
-                    <span class="exercise-badge">Ejercicio 4</span>
-                    <h2>EP-04 Mesa XY: Tiempo de Ciclo</h2>
-                    <p class="exercise-desc">
-                        Para la mesa XY del ejercicio EP-03, si se regulan los caudales a: eje X = 20 L/min, eje Y = 12 L/min, y los diámetros elegidos son D_X = 50 mm, D_Y = 40 mm. Calcule velocidades, tiempos de desplazamiento y tiempo total de ciclo (X+ → Y+ → Y- → X-).
-                    </p>
+                <div class="exercise-theory">
+                    <div class="card-subsection">
+                        <h3><i data-lucide="help-circle"></i> Pregunta</h3>
+                        <p class="theory-text">
+                            Para la mesa XY del ejercicio EP-03, si se regulan los caudales a: eje X = <strong>20 L/min</strong>, eje Y = <strong>12 L/min</strong>, y los diámetros elegidos son <strong>D_X = 50 mm</strong>, <strong>D_Y = 40 mm</strong>. Calcule: (a) velocidades de cada eje, (b) tiempos de desplazamiento, (c) tiempo total de ciclo X+ → Y+ → Y- → X-.
+                        </p>
+                    </div>
 
-                    <div class="calculator-box">
-                        <button class="btn-calculate" onclick="calcularEP04()">Calcular Tiempos</button>
-                        <div class="results-grid">
-                            <div class="result-card">
-                                <span class="res-title">Velocidad X / Y</span>
-                                <span class="res-val text-sm" id="res-v4">--</span>
-                                <span class="res-unit">m/s</span>
+                    <div class="card-subsection mt-4">
+                        <h3><i data-lucide="book-open"></i> Resolución</h3>
+                        <div class="math-steps">
+                            <div class="step">
+                                <span class="step-num">1</span>
+                                <p><strong>Conversión de Caudales:</strong><br>
+                                <code>Q_X = 20 L/min = 3.33e-4 m³/s</code><br>
+                                <code>Q_Y = 12 L/min = 2.00e-4 m³/s</code></p>
                             </div>
-                            <div class="result-card">
-                                <span class="res-title">Tiempo Despl. X / Y</span>
-                                <span class="res-val text-sm" id="res-t4">--</span>
-                                <span class="res-unit">s</span>
+                            <div class="step">
+                                <span class="step-num">2</span>
+                                <p><strong>Áreas de Cilindros:</strong><br>
+                                <code>A_X = π · 0.05² / 4 = 1.963e-3 m²</code><br>
+                                <code>A_Y = π · 0.04² / 4 = 1.257e-3 m²</code></p>
                             </div>
-                            <div class="result-card highlight">
-                                <span class="res-title">Tiempo Total Ciclo</span>
-                                <span class="res-val" id="res-ttotal4">--</span>
-                                <span class="res-unit">s</span>
+                            <div class="step">
+                                <span class="step-num">3</span>
+                                <p><strong>Velocidades de Eje:</strong><br>
+                                <code>V_X = Q_X / A_X = 0.170 m/s</code><br>
+                                <code>V_Y = Q_Y / A_Y = 0.159 m/s</code></p>
+                            </div>
+                            <div class="step">
+                                <span class="step-num">4</span>
+                                <p><strong>Tiempos de Ciclo:</strong><br>
+                                <code>t_X = 0.40 m / 0.170 m/s = 2.35 s</code><br>
+                                <code>t_Y = 0.20 m / 0.159 m/s = 1.26 s</code><br>
+                                <code>t_total = 2 · (t_X + t_Y) = 7.22 s</code></p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="exercise-visual">
-                    <div class="image-wrapper">
-                        <div class="placeholder-icon">⏱️</div>
+
+                <div class="exercise-interactive">
+                    <div class="calculator-box">
+                        <h3><i data-lucide="sliders"></i> Caudales y Diámetros</h3>
+                        <div class="slider-group">
+                            <div class="slider-label"><span>Caudal X (Q_X):</span> <span id="val-qx4">20</span> L/min</div>
+                            <input type="range" id="slide-qx4" min="5" max="40" step="1" value="20" oninput="actualizarEP04()">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-label"><span>Caudal Y (Q_Y):</span> <span id="val-qy4">12</span> L/min</div>
+                            <input type="range" id="slide-qy4" min="5" max="30" step="1" value="12" oninput="actualizarEP04()">
+                        </div>
+                    </div>
+
+                    <div class="canvas-container mt-4">
+                        <span class="canvas-title"><i data-lucide="play-circle"></i> Simulación de Ciclo Secuencial</span>
+                        <canvas id="canvas-ep04" width="400" height="250"></canvas>
+                        <button class="btn-primary w-full mt-2" onclick="simularEP04()">Iniciar Ciclo Secuencial</button>
+                    </div>
+
+                    <div class="chart-container mt-4">
+                        <canvas id="chart-ep04"></canvas>
                     </div>
                 </div>
             </div>
@@ -273,49 +378,32 @@
 
         <!-- EP-05 Diseño Sistema Completo -->
         <section id="ep05" class="exercise-section">
-            <div class="section-grid">
-                <div class="exercise-visual">
-                    <div class="image-wrapper">
-                        <div class="placeholder-icon">🎛️</div>
+            <span class="exercise-badge">Diseño</span>
+            <h2>EP-05 Propuesta de Sistema Pick & Place</h2>
+            
+            <div class="system-dashboard">
+                <div class="dashboard-grid">
+                    <div class="db-card" onclick="selectComponent('frl')">
+                        <span class="db-icon"><i data-lucide="filter"></i></span>
+                        <h4>Unidad FRL</h4>
+                    </div>
+                    <div class="db-card" onclick="selectComponent('garra')">
+                        <span class="db-icon"><i data-lucide="pocket"></i></span>
+                        <h4>Actuadores/Garra</h4>
+                    </div>
+                    <div class="db-card" onclick="selectComponent('valvulas')">
+                        <span class="db-icon"><i data-lucide="shuffle"></i></span>
+                        <h4>Electroválvulas</h4>
+                    </div>
+                    <div class="db-card" onclick="selectComponent('plc')">
+                        <span class="db-icon"><i data-lucide="binary"></i></span>
+                        <h4>Control PLC</h4>
                     </div>
                 </div>
-                <div class="exercise-details">
-                    <span class="exercise-badge">Ejercicio 5</span>
-                    <h2>EP-05 Diseño del Sistema</h2>
-                    <p class="exercise-desc">
-                        Propuesta del sistema neumático completo (FRL, válvulas, sensores y PLC) para la célula robótica de Pick & Place.
-                    </p>
-                    
-                    <div class="system-list-box">
-                        <div class="sys-item">
-                            <span class="sys-dot"></span>
-                            <div>
-                                <h4>Unidad de Mantenimiento FRL</h4>
-                                <p>Filtro de 40 µm, regulador de presión con manómetro y lubricador neumático.</p>
-                            </div>
-                        </div>
-                        <div class="sys-item">
-                            <span class="sys-dot"></span>
-                            <div>
-                                <h4>Actuador y Garras</h4>
-                                <p>Garra paralela de doble efecto y cilindros guiados para mesa XY.</p>
-                            </div>
-                        </div>
-                        <div class="sys-item">
-                            <span class="sys-dot"></span>
-                            <div>
-                                <h4>Válvulas Distribuidoras</h4>
-                                <p>Electroválvulas 5/2 biestables y monoestables con bobina de 24V DC.</p>
-                            </div>
-                        </div>
-                        <div class="sys-item">
-                            <span class="sys-dot"></span>
-                            <div>
-                                <h4>Controlador PLC</h4>
-                                <p>PLC Siemens S7-1200 para la sincronización y tiempos de ciclo del Pick & Place.</p>
-                            </div>
-                        </div>
-                    </div>
+
+                <div class="db-details-panel" id="db-details">
+                    <h3 id="db-detail-title">Selecciona un componente</h3>
+                    <p id="db-detail-desc">Haz clic en cualquiera de los bloques del sistema Pick & Place de arriba para observar sus especificaciones técnicas y justificación de selección.</p>
                 </div>
             </div>
         </section>
@@ -323,7 +411,7 @@
     </main>
 
     <footer class="main-footer">
-        <p>© 2026 Edgar Alexis Ramos Trujillo. Diseñado de forma natural y orgánica.</p>
+        <p>© 2026 Edgar Alexis Ramos Trujillo. Diseñado de forma natural, orgánica y libre de emojis.</p>
     </footer>
 
     <script src="main.js"></script>

@@ -7,7 +7,7 @@
     --accent-sand: #f0ebe1;
     --accent-terracotta: #d4a373;
     --white: #ffffff;
-    --card-shadow: 0 20px 40px rgba(45, 74, 67, 0.06);
+    --card-shadow: 0 20px 40px rgba(45, 74, 67, 0.05);
     --border-color: rgba(45, 74, 67, 0.08);
 }
 
@@ -41,7 +41,7 @@ h1, h2, h3, h4, .nav-logo {
     left: 0;
     width: 100%;
     z-index: 1000;
-    background: rgba(252, 251, 247, 0.8);
+    background: rgba(252, 251, 247, 0.85);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border-bottom: 1px solid var(--border-color);
@@ -165,10 +165,14 @@ h1, h2, h3, h4, .nav-logo {
 }
 
 .info-icon {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    color: var(--primary-green);
     background: var(--bg-natural);
-    padding: 0.5rem;
+    padding: 0.6rem;
     border-radius: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .info-label {
@@ -196,11 +200,18 @@ h1, h2, h3, h4, .nav-logo {
     font-weight: 600;
     transition: background-color 0.3s ease, transform 0.2s ease;
     box-shadow: 0 10px 20px rgba(45, 74, 67, 0.15);
+    border: none;
+    cursor: pointer;
 }
 
 .btn-primary:hover {
     background-color: #233a35;
     transform: translateY(-2px);
+}
+
+.btn-primary svg {
+    width: 18px;
+    height: 18px;
 }
 
 /* Columna Gráfica Hero */
@@ -269,8 +280,12 @@ h1, h2, h3, h4, .nav-logo {
 }
 
 .card-icon {
-    font-size: 2rem;
-    display: inline-block;
+    font-size: 1.5rem;
+    color: var(--primary-green);
+    display: inline-flex;
+    padding: 0.5rem;
+    background: var(--bg-natural);
+    border-radius: 0.8rem;
     margin-bottom: 1rem;
 }
 
@@ -304,11 +319,27 @@ h1, h2, h3, h4, .nav-logo {
     transform: translateY(50px);
 }
 
+.exercise-badge {
+    color: var(--accent-terracotta);
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.exercise-section h2 {
+    font-size: 2.4rem;
+    color: var(--primary-green);
+    margin-bottom: 2.5rem;
+}
+
 .section-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
-    align-items: center;
+    align-items: start;
 }
 
 .section-grid.reverse {
@@ -319,83 +350,108 @@ h1, h2, h3, h4, .nav-logo {
     direction: ltr;
 }
 
-/* Visual del Ejercicio */
-.exercise-visual {
+/* Teoría (Pregunta y Resolución) */
+.exercise-theory {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.card-subsection {
+    background: var(--bg-natural);
+    border: 1px solid var(--border-color);
+    padding: 2rem;
+    border-radius: 1.5rem;
+}
+
+.card-subsection h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--primary-green);
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+.card-subsection h3 svg {
+    width: 20px;
+    height: 20px;
+    color: var(--secondary-sage);
+}
+
+.theory-text {
+    font-size: 1.05rem;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+    line-height: 1.7;
+}
+
+.question-list {
+    list-style-type: none;
+    margin-top: 1rem;
+}
+
+.question-list li {
+    margin-bottom: 0.8rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.question-list li::before {
+    content: "•";
+    color: var(--accent-terracotta);
+    font-weight: bold;
+    font-size: 1.2rem;
+    position: absolute;
+    left: 0;
+    top: -2px;
+}
+
+/* Resolución Matemática Pasos */
+.math-steps {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 }
 
-.image-wrapper {
-    width: 100%;
-    height: 320px;
-    background-color: var(--accent-sand);
-    border-radius: 1.5rem;
-    overflow: hidden;
-    position: relative;
-    border: 1px solid var(--border-color);
+.step {
+    display: flex;
+    gap: 1rem;
+}
+
+.step-num {
+    background-color: var(--primary-green);
+    color: var(--white);
+    font-weight: 700;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.9rem;
 }
 
-.placeholder-icon {
-    font-size: 4rem;
-    opacity: 0.6;
-}
-
-.exercise-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.image-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, transparent, rgba(45, 74, 67, 0.2));
-}
-
-.exercise-meta h3 {
-    font-size: 1.2rem;
+.step code {
+    display: block;
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    padding: 0.6rem 1rem;
+    border-radius: 0.6rem;
+    margin-top: 0.5rem;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 600;
     color: var(--primary-green);
-    margin-bottom: 0.3rem;
 }
 
-.exercise-meta p {
-    font-size: 0.85rem;
-    color: var(--text-light);
-}
-
-/* Detalles del Ejercicio */
-.exercise-details {
+/* Interactividad y Widgets */
+.exercise-interactive {
     display: flex;
     flex-direction: column;
+    gap: 2rem;
 }
 
-.exercise-badge {
-    color: var(--accent-terracotta);
-    font-weight: 700;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 0.8rem;
-}
-
-.exercise-details h2 {
-    font-size: 2.2rem;
-    color: var(--primary-green);
-    margin-bottom: 1.2rem;
-}
-
-.exercise-desc {
-    font-size: 1.05rem;
-    color: var(--text-light);
-    margin-bottom: 2.5rem;
-    line-height: 1.7;
-}
-
-/* Calculadora */
 .calculator-box {
     background-color: var(--bg-natural);
     border: 1px solid var(--border-color);
@@ -403,74 +459,51 @@ h1, h2, h3, h4, .nav-logo {
     padding: 2rem;
 }
 
-.input-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
+.calculator-box h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-green);
+}
+
+.calculator-box h3 svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Widgets Slider */
+.slider-group {
     margin-bottom: 1.5rem;
 }
 
-.input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+.slider-group:last-child {
+    margin-bottom: 0;
 }
 
-.input-group label {
-    font-size: 0.8rem;
+.slider-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
     font-weight: 600;
     color: var(--text-light);
+    margin-bottom: 0.5rem;
 }
 
-.input-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.input-wrapper input {
-    width: 100%;
-    padding: 0.8rem 1rem;
-    border-radius: 0.8rem;
-    border: 1px solid var(--border-color);
-    background: var(--white);
-    font-family: inherit;
-    font-weight: 600;
+.slider-label span:last-child {
     color: var(--primary-green);
-    outline: none;
-    transition: border-color 0.3s ease;
+    font-weight: 700;
 }
 
-.input-wrapper input:focus {
-    border-color: var(--secondary-sage);
-}
-
-.input-wrapper .unit {
-    position: absolute;
-    right: 10px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--text-light);
-}
-
-.btn-calculate {
+.slider-group input[type="range"] {
     width: 100%;
-    background-color: var(--primary-green);
-    color: var(--white);
-    border: none;
-    padding: 1rem;
-    border-radius: 0.8rem;
-    font-weight: 600;
-    font-size: 1rem;
+    accent-color: var(--primary-green);
+    height: 6px;
+    border-radius: 3px;
+    background: var(--accent-sand);
+    outline: none;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-bottom: 2rem;
-    font-family: inherit;
-}
-
-.btn-calculate:hover {
-    background-color: #233a35;
-    transform: translateY(-1px);
 }
 
 /* Resultados */
@@ -478,6 +511,7 @@ h1, h2, h3, h4, .nav-logo {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
+    margin-top: 1.5rem;
 }
 
 .result-card {
@@ -511,7 +545,7 @@ h1, h2, h3, h4, .nav-logo {
 }
 
 .res-val {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 800;
     margin-bottom: 0.2rem;
 }
@@ -526,36 +560,113 @@ h1, h2, h3, h4, .nav-logo {
     opacity: 0.8;
 }
 
-/* Diseño Sistema */
-.system-list-box {
+/* Canvas y Contenedores */
+.canvas-container {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
+    box-shadow: var(--card-shadow);
+}
+
+.canvas-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--primary-green);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.canvas-title svg {
+    width: 18px;
+    height: 18px;
+    color: var(--accent-terracotta);
+}
+
+canvas {
+    border-radius: 1rem;
+    background-color: var(--bg-natural);
+    width: 100%;
+}
+
+.chart-container {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    box-shadow: var(--card-shadow);
+}
+
+/* Dashboard EP-05 */
+.system-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
 }
 
-.sys-item {
+.db-card {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    padding: 2rem;
+    border-radius: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 1rem;
-    align-items: flex-start;
 }
 
-.sys-dot {
-    width: 10px;
-    height: 10px;
-    background-color: var(--accent-terracotta);
-    border-radius: 50%;
-    margin-top: 6px;
-    flex-shrink: 0;
+.db-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-green);
 }
 
-.sys-item h4 {
+.db-icon {
+    font-size: 1.5rem;
     color: var(--primary-green);
-    margin-bottom: 0.3rem;
+    background: var(--bg-natural);
+    padding: 0.8rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.sys-item p {
-    font-size: 0.9rem;
+.db-card h4 {
+    color: var(--primary-green);
+    font-size: 1.1rem;
+}
+
+.db-details-panel {
+    background-color: var(--bg-natural);
+    border: 1px solid var(--border-color);
+    padding: 2.5rem;
+    border-radius: 2rem;
+    min-height: 150px;
+}
+
+.db-details-panel h3 {
+    color: var(--primary-green);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.db-details-panel p {
     color: var(--text-light);
+    line-height: 1.8;
 }
 
 /* Footer */
@@ -587,5 +698,9 @@ h1, h2, h3, h4, .nav-logo {
     .section-grid, .section-grid.reverse {
         grid-template-columns: 1fr;
         gap: 3rem;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
