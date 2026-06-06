@@ -95,9 +95,13 @@ window.addEventListener('scroll', () => {
 // ==========================================
 let chart1, chart2, chart3, chart4;
 
+// Configuración global de colores Chart.js para modo oscuro
+Chart.defaults.color = '#9ca3af';
+Chart.defaults.borderColor = 'rgba(139, 92, 246, 0.1)';
+
 // Función común para dibujar cuadrículas técnicas en los Canvas
 function drawTechnicalGrid(ctx, w, h) {
-    ctx.strokeStyle = 'rgba(45, 74, 67, 0.05)';
+    ctx.strokeStyle = 'rgba(139, 92, 246, 0.06)';
     ctx.lineWidth = 1;
     for (let x = 20; x < w; x += 20) {
         ctx.beginPath();
@@ -128,30 +132,30 @@ function drawEP01() {
     // Cuadrícula
     drawTechnicalGrid(ctx1, w, h);
 
-    // Soporte del actuador (metalizado)
-    ctx1.fillStyle = '#b0b7bd';
+    // Soporte del actuador (metalizado oscuro)
+    ctx1.fillStyle = '#4b5563';
     ctx1.fillRect(120, 15, 160, 25);
-    ctx1.fillStyle = '#7a8288';
+    ctx1.fillStyle = '#374151';
     ctx1.fillRect(130, 40, 140, 15);
 
     // Guias deslizantes y dedos de la garra
     const xLeft = 140 + animEP01.fingersX;
     const xRight = 245 - animEP01.fingersX;
     
-    // Dedos
-    ctx1.fillStyle = '#5a6b66';
+    // Dedos (Violeta en armonía con Whobee)
+    ctx1.fillStyle = '#8b5cf6';
     ctx1.fillRect(xLeft, 55, 15, 60); // Izquierdo
     ctx1.fillRect(xRight, 55, 15, 60); // Derecho
     
-    // Almohadillas de goma antideslizante (goma oscura)
-    ctx1.fillStyle = '#1e2a27';
+    // Almohadillas de goma antideslizante (Magenta brillante)
+    ctx1.fillStyle = '#d946ef';
     ctx1.fillRect(xLeft + 15, 70, 4, 35);
     ctx1.fillRect(xRight - 4, 70, 4, 35);
 
-    // Botella de vidrio realista (verde salvia translúcida)
+    // Botella de vidrio realista (Violeta translúcido)
     ctx1.save();
-    ctx1.fillStyle = 'rgba(141, 168, 155, 0.85)';
-    ctx1.strokeStyle = '#2d4a43';
+    ctx1.fillStyle = 'rgba(167, 139, 250, 0.45)';
+    ctx1.strokeStyle = '#a78bfa';
     ctx1.lineWidth = 2;
     // Cuerpo
     ctx1.fillRect(175, animEP01.bottleY, 50, 80);
@@ -159,15 +163,15 @@ function drawEP01() {
     // Cuello
     ctx1.fillRect(188, animEP01.bottleY - 25, 24, 25);
     ctx1.strokeRect(188, animEP01.bottleY - 25, 24, 25);
-    // Tapón de corcho
-    ctx1.fillStyle = '#d4a373';
+    // Tapón
+    ctx1.fillStyle = '#1e1b4b';
     ctx1.fillRect(191, animEP01.bottleY - 33, 18, 10);
     ctx1.restore();
 
     // Dibujar vectores de fuerza cuando agarre
     if (animEP01.state === 'holding' || animEP01.state === 'lifting') {
         const fReq = parseFloat(document.getElementById('res-f1').textContent) || 12.81;
-        ctx1.strokeStyle = '#c94a3a';
+        ctx1.strokeStyle = '#d946ef';
         ctx1.lineWidth = 3;
         // Flecha izquierda
         ctx1.beginPath();
@@ -186,15 +190,15 @@ function drawEP01() {
         ctx1.lineTo(xRight - 15, 92);
         ctx1.stroke();
 
-        ctx1.fillStyle = '#c94a3a';
+        ctx1.fillStyle = '#d946ef';
         ctx1.font = 'bold 10px Inter';
         ctx1.fillText(`Fc = ${fReq.toFixed(1)} N`, 173, 80);
     }
 
     // Telemetría overlay
-    ctx1.fillStyle = 'rgba(45, 74, 67, 0.85)';
+    ctx1.fillStyle = 'rgba(17, 24, 39, 0.9)';
     ctx1.fillRect(10, 195, 380, 45);
-    ctx1.fillStyle = '#ffffff';
+    ctx1.fillStyle = '#f3f4f6';
     ctx1.font = '11px Courier New';
     ctx1.fillText(`ESTADO: ${animEP01.statusText}`, 20, 212);
     ctx1.fillText(`POS_X_GARRA: ${animEP01.fingersX.toFixed(1)}mm | BOTELLA_Y: ${animEP01.bottleY.toFixed(1)}px`, 20, 228);
@@ -278,23 +282,25 @@ function initChart01() {
             labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             datasets: [{
                 label: 'Diámetro Mínimo (mm) vs Presión (bar)',
-                borderColor: '#2d4a43',
-                backgroundColor: 'rgba(45, 74, 67, 0.1)',
+                borderColor: '#8b5cf6',
+                backgroundColor: 'rgba(139, 92, 246, 0.15)',
                 data: [],
                 fill: true
             }]
         },
         options: {
             responsive: true,
+            plugins: {
+                legend: { labels: { color: '#f3f4f6' } }
+            },
             scales: {
-                y: { title: { display: true, text: 'Diámetro (mm)' } },
-                x: { title: { display: true, text: 'Presión (bar)' } }
+                y: { grid: { color: 'rgba(255,255,255,0.05)' }, title: { display: true, text: 'Diámetro (mm)', color: '#9ca3af' } },
+                x: { grid: { color: 'rgba(255,255,255,0.05)' }, title: { display: true, text: 'Presión (bar)', color: '#9ca3af' } }
             }
         }
     });
 }
 
-// Actualizar gráfico de EP01
 function updateChart01(currentD, currentP) {
     const m = parseFloat(document.getElementById('slide-m1').value);
     const a = parseFloat(document.getElementById('slide-a1').value);
@@ -328,63 +334,63 @@ function drawEP02() {
     
     drawTechnicalGrid(ctx2, w, h);
 
-    // Cuerpo neumático de la garra angular (plateado)
-    ctx2.fillStyle = '#7a8288';
+    // Cuerpo neumático de la garra angular (plateado oscuro)
+    ctx2.fillStyle = '#4b5563';
     ctx2.fillRect(165, 20, 70, 50);
-    ctx2.fillStyle = '#b0b7bd';
+    ctx2.fillStyle = '#374151';
     ctx2.fillRect(175, 70, 50, 15);
 
     // Ejes pivots
-    ctx2.fillStyle = '#1e2a27';
+    ctx2.fillStyle = '#111827';
     ctx2.beginPath();
     ctx2.arc(185, 80, 4, 0, Math.PI * 2);
     ctx2.arc(215, 80, 4, 0, Math.PI * 2);
     ctx2.fill();
 
-    // Brazo garras izquierdo y derecho
+    // Brazo garras izquierdo y derecho (Violetas)
     ctx2.save();
     ctx2.translate(185, 80);
     ctx2.rotate(-animEP02.angle);
-    ctx2.fillStyle = '#5a6b66';
+    ctx2.fillStyle = '#8b5cf6';
     ctx2.fillRect(-10, 0, 15, 60);
-    ctx2.fillStyle = '#2d4a43';
-    ctx2.fillRect(5, 45, 12, 15); // Almohadilla angular
+    ctx2.fillStyle = '#d946ef';
+    ctx2.fillRect(5, 45, 12, 15); // Almohadilla angular magenta
     ctx2.restore();
 
     ctx2.save();
     ctx2.translate(215, 80);
     ctx2.rotate(animEP02.angle);
-    ctx2.fillStyle = '#5a6b66';
+    ctx2.fillStyle = '#8b5cf6';
     ctx2.fillRect(-5, 0, 15, 60);
-    ctx2.fillStyle = '#2d4a43';
-    ctx2.fillRect(-17, 45, 12, 15); // Almohadilla angular
+    ctx2.fillStyle = '#d946ef';
+    ctx2.fillRect(-17, 45, 12, 15); // Almohadilla angular magenta
     ctx2.restore();
 
-    // Pieza de masa (caja metálica)
-    ctx2.fillStyle = '#d4a373';
+    // Pieza de masa (caja metálica magenta translúcida)
+    ctx2.fillStyle = 'rgba(217, 70, 239, 0.4)';
     ctx2.fillRect(180, animEP02.pieceY, 40, 40);
-    ctx2.strokeStyle = '#8c5827';
+    ctx2.strokeStyle = '#d946ef';
     ctx2.strokeRect(180, animEP02.pieceY, 40, 40);
 
     // Anuncios de Apto / Fallo
     if (animEP02.state === 'fail-dropping') {
-        ctx2.fillStyle = 'rgba(201, 74, 58, 0.1)';
+        ctx2.fillStyle = 'rgba(239, 68, 68, 0.15)';
         ctx2.fillRect(0, 0, w, h);
-        ctx2.fillStyle = '#c94a3a';
+        ctx2.fillStyle = '#ef4444';
         ctx2.font = 'bold 12px Inter';
         ctx2.fillText('⚠️ DESLIZAMIENTO DETECTADO', 120, 120);
     } else if (animEP02.state === 'holding-ok') {
-        ctx2.fillStyle = 'rgba(45, 74, 67, 0.1)';
+        ctx2.fillStyle = 'rgba(16, 185, 129, 0.15)';
         ctx2.fillRect(0, 0, w, h);
-        ctx2.fillStyle = '#2d4a43';
+        ctx2.fillStyle = '#10b981';
         ctx2.font = 'bold 12px Inter';
         ctx2.fillText('✅ AGARRE SEGURO', 150, 120);
     }
 
     // Telemetría overlay
-    ctx2.fillStyle = 'rgba(45, 74, 67, 0.85)';
+    ctx2.fillStyle = 'rgba(17, 24, 39, 0.9)';
     ctx2.fillRect(10, 195, 380, 45);
-    ctx2.fillStyle = '#ffffff';
+    ctx2.fillStyle = '#f3f4f6';
     ctx2.font = '11px Courier New';
     ctx2.fillText(`ESTADO: ${animEP02.statusText}`, 20, 212);
     ctx2.fillText(`ANGULO_GARRA: ${animEP02.angle.toFixed(2)}rad | PIEZA_Y: ${animEP02.pieceY.toFixed(1)}px`, 20, 228);
@@ -502,7 +508,7 @@ function actualizarEP02() {
         const p_req = (F_req / (A * eta * k_brazo)) / 100000;
         label.textContent = "NO APTA";
         sub.textContent = `Req: ${p_req.toFixed(1)} bar`;
-        card.style.backgroundColor = "#c94a3a";
+        card.style.backgroundColor = "#ef4444";
     }
 
     updateChart02(F_req);
@@ -517,19 +523,22 @@ function initChart02() {
             datasets: [
                 {
                     label: 'Fuerza Disponible (N)',
-                    borderColor: '#8da89b',
+                    borderColor: '#a78bfa',
                     data: []
                 },
                 {
                     label: 'Fuerza Requerida (N)',
-                    borderColor: '#c94a3a',
+                    borderColor: '#d946ef',
                     borderDash: [5, 5],
                     data: [],
                     fill: false
                 }
             ]
         },
-        options: { responsive: true }
+        options: {
+            responsive: true,
+            plugins: { legend: { labels: { color: '#f3f4f6' } } }
+        }
     });
 }
 
@@ -551,7 +560,7 @@ function updateChart02(F_req) {
 }
 
 // ==========================================
-// EJERCICIO EP-03: MESA XY DE SOLDADURA CON CHISPAS
+// EJERCICIO EP-03: MESA XY DE SOLDADURA CON CHISPAS ELÉCTRICAS
 // ==========================================
 let canvas3 = document.getElementById('canvas-ep03');
 let ctx3 = canvas3.getContext('2d');
@@ -565,37 +574,38 @@ function drawEP03() {
     
     drawTechnicalGrid(ctx3, w, h);
 
-    // Rieles de guía lineales X (arriba y abajo)
-    ctx3.fillStyle = '#b0b7bd';
+    // Rieles de guía lineales X (arriba y abajo - gris oscuro)
+    ctx3.fillStyle = '#374151';
     ctx3.fillRect(30, 45, 340, 8);
     ctx3.fillRect(30, 185, 340, 8);
 
-    // Gantry de aluminio que corre en X
-    ctx3.fillStyle = '#5a6b66';
+    // Gantry de aluminio que corre en X (Violeta)
+    ctx3.fillStyle = '#8b5cf6';
     ctx3.fillRect(animEP03.gantryX, 35, 24, 160);
-    ctx3.fillStyle = '#2d4a43';
+    ctx3.fillStyle = '#7c3aed';
     ctx3.fillRect(animEP03.gantryX + 2, 40, 20, 15);
     ctx3.fillRect(animEP03.gantryX + 2, 175, 20, 15);
 
-    // Carro de deslizamiento Y que corre en el gantry
-    ctx3.fillStyle = '#d4a373';
+    // Carro de deslizamiento Y que corre en el gantry (Magenta)
+    ctx3.fillStyle = '#d946ef';
     ctx3.fillRect(animEP03.gantryX - 6, animEP03.carriageY, 36, 36);
-    ctx3.strokeStyle = '#8c5827';
+    ctx3.strokeStyle = '#c084fc';
     ctx3.strokeRect(animEP03.gantryX - 6, animEP03.carriageY, 36, 36);
 
     // Cabezal de soldadura (antorcha)
-    ctx3.fillStyle = '#1e2a27';
+    ctx3.fillStyle = '#111827';
     ctx3.fillRect(animEP03.gantryX + 8, animEP03.carriageY + 14, 18, 8);
-    ctx3.fillStyle = '#c94a3a';
+    ctx3.strokeStyle = '#d946ef';
+    ctx3.lineWidth = 2;
     ctx3.beginPath();
     ctx3.moveTo(animEP03.gantryX + 26, animEP03.carriageY + 18);
     ctx3.lineTo(animEP03.gantryX + 34, animEP03.carriageY + 18);
     ctx3.stroke();
 
-    // Dibujar y actualizar chispas de soldadura si está soldando
+    // Dibujar y actualizar chispas de soldadura (Eléctricas Violetas/Magenta)
     if (animEP03.state === 'soldering') {
         sparks.forEach((p, index) => {
-            ctx3.fillStyle = `rgba(212, 163, 115, ${p.alpha})`;
+            ctx3.fillStyle = `rgba(217, 70, 239, ${p.alpha})`;
             ctx3.beginPath();
             ctx3.arc(p.x, p.y, p.size, 0, Math.PI * 2);
             ctx3.fill();
@@ -621,9 +631,9 @@ function drawEP03() {
     }
 
     // Telemetría overlay
-    ctx3.fillStyle = 'rgba(45, 74, 67, 0.85)';
+    ctx3.fillStyle = 'rgba(17, 24, 39, 0.9)';
     ctx3.fillRect(10, 195, 380, 45);
-    ctx3.fillStyle = '#ffffff';
+    ctx3.fillStyle = '#f3f4f6';
     ctx3.font = '11px Courier New';
     ctx3.fillText(`ESTADO: ${animEP03.statusText}`, 20, 212);
     ctx3.fillText(`COORDENADA_X: ${(animEP03.gantryX * 1.25).toFixed(1)}mm | COORDENADA_Y: ${(animEP03.carriageY * 0.8).toFixed(1)}mm`, 20, 228);
@@ -698,14 +708,18 @@ function initChart03() {
             labels: ['1.0', '1.5', '2.0', '2.5', '3.0'],
             datasets: [{
                 label: 'Fuerza Requerida (N) vs Aceleración',
-                backgroundColor: '#2d4a43',
+                backgroundColor: '#8b5cf6',
                 data: []
             }]
         },
-        options: { responsive: true }
+        options: {
+            responsive: true,
+            plugins: { legend: { labels: { color: '#f3f4f6' } } }
+        }
     });
 }
 
+// Actualizar gráfico EP03
 function updateChart03(m) {
     const FS = 2.0;
     const data = [];
@@ -731,42 +745,42 @@ function drawEP04() {
     
     drawTechnicalGrid(ctx4, w, h);
 
-    // CILINDRO X (Horizontal en el plano superior)
-    ctx4.fillStyle = '#7a8288';
-    ctx4.fillRect(40, 50, 120, 30); // Cuerpo Cilindro X
-    ctx4.fillStyle = '#b0b7bd';
-    ctx4.fillRect(160, 60, animEP04.rodX, 10); // Vástago X
+    // CILINDRO X (Horizontal - metal gris oscuro)
+    ctx4.fillStyle = '#4b5563';
+    ctx4.fillRect(40, 50, 120, 30);
+    ctx4.fillStyle = '#9ca3af';
+    ctx4.fillRect(160, 60, animEP04.rodX, 10); // Vástago
 
-    // Cabezal guía de X
-    ctx4.fillStyle = '#d4a373';
+    // Cabezal guía de X (Violeta)
+    ctx4.fillStyle = '#8b5cf6';
     ctx4.fillRect(160 + animEP04.rodX, 50, 15, 30);
 
-    // CILINDRO Y (Vertical acoplado al final del recorrido de X)
-    ctx4.fillStyle = '#7a8288';
-    ctx4.fillRect(260, 50, 30, 80); // Cuerpo Cilindro Y
-    ctx4.fillStyle = '#b0b7bd';
-    ctx4.fillRect(270, 130, 10, animEP04.rodY); // Vástago Y
+    // CILINDRO Y (Vertical - metal gris oscuro)
+    ctx4.fillStyle = '#4b5563';
+    ctx4.fillRect(260, 50, 30, 80);
+    ctx4.fillStyle = '#9ca3af';
+    ctx4.fillRect(270, 130, 10, animEP04.rodY); // Vástago
 
-    // Herramienta Y
-    ctx4.fillStyle = '#d4a373';
+    // Herramienta Y (Magenta)
+    ctx4.fillStyle = '#d946ef';
     ctx4.fillRect(260, 130 + animEP04.rodY, 30, 15);
 
     // Luces de los sensores S1, S2, S3, S4
-    // S1 (Inicio X)
-    ctx4.fillStyle = (animEP04.rodX < 5) ? '#55ff55' : '#882222';
+    // S1
+    ctx4.fillStyle = (animEP04.rodX < 5) ? '#10b981' : '#ef4444';
     ctx4.beginPath(); ctx4.arc(45, 40, 4, 0, Math.PI*2); ctx4.fill();
-    // S2 (Fin X)
-    ctx4.fillStyle = (animEP04.rodX > 95) ? '#55ff55' : '#882222';
+    // S2
+    ctx4.fillStyle = (animEP04.rodX > 95) ? '#10b981' : '#ef4444';
     ctx4.beginPath(); ctx4.arc(155, 40, 4, 0, Math.PI*2); ctx4.fill();
-    // S3 (Inicio Y)
-    ctx4.fillStyle = (animEP04.rodY < 5) ? '#55ff55' : '#882222';
+    // S3
+    ctx4.fillStyle = (animEP04.rodY < 5) ? '#10b981' : '#ef4444';
     ctx4.beginPath(); ctx4.arc(250, 60, 4, 0, Math.PI*2); ctx4.fill();
-    // S4 (Fin Y)
-    ctx4.fillStyle = (animEP04.rodY > 45) ? '#55ff55' : '#882222';
+    // S4
+    ctx4.fillStyle = (animEP04.rodY > 45) ? '#10b981' : '#ef4444';
     ctx4.beginPath(); ctx4.arc(250, 120, 4, 0, Math.PI*2); ctx4.fill();
 
     // Textos sensores
-    ctx4.fillStyle = '#1e2a27';
+    ctx4.fillStyle = '#f3f4f6';
     ctx4.font = '9px Inter';
     ctx4.fillText('S1', 41, 32);
     ctx4.fillText('S2', 151, 32);
@@ -774,9 +788,9 @@ function drawEP04() {
     ctx4.fillText('S4', 234, 123);
 
     // Telemetría overlay
-    ctx4.fillStyle = 'rgba(45, 74, 67, 0.85)';
+    ctx4.fillStyle = 'rgba(17, 24, 39, 0.9)';
     ctx4.fillRect(10, 195, 380, 45);
-    ctx4.fillStyle = '#ffffff';
+    ctx4.fillStyle = '#f3f4f6';
     ctx4.font = '11px Courier New';
     ctx4.fillText(`ETAPA: ${animEP04.stateText}`, 20, 212);
     ctx4.fillText(`TIEMPO TOTAL: ${animEP04.elapsedSecs.toFixed(2)}s | ROD_X: ${animEP04.rodX.toFixed(1)} | ROD_Y: ${animEP04.rodY.toFixed(1)}`, 20, 228);
@@ -890,11 +904,14 @@ function initChart04() {
             labels: [5, 10, 15, 20, 25, 30, 35, 40],
             datasets: [{
                 label: 'Tiempo total de ciclo (s) vs Caudal X',
-                borderColor: '#d4a373',
+                borderColor: '#d946ef',
                 data: []
             }]
         },
-        options: { responsive: true }
+        options: {
+            responsive: true,
+            plugins: { legend: { labels: { color: '#f3f4f6' } } }
+        }
     });
 }
 
