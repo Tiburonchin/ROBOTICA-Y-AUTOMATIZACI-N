@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Académico - Robótica y Automatización</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e1b4b;
+            --secondary: #4f46e5;
+            --text-dark: #1f2937;
+            --text-light: #4b5563;
+            --bg-light: #f9fafb;
+            --border: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: #ffffff;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Cabecera / Presentación */
+        .header-card {
+            border: 2px solid var(--primary);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            background-color: var(--bg-light);
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .header-card h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+        }
+
+        .info-item span {
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-light);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .info-item strong {
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        /* Enlaces */
+        .links-box {
+            background-color: #e0e7ff;
+            border: 1px solid #c7d2fe;
+            padding: 1.2rem;
+            border-radius: 0.5rem;
+            margin-top: 1.5rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .links-box a {
+            color: var(--secondary);
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .links-box a:hover {
+            text-decoration: underline;
+        }
+
+        /* Botón de Impresión */
+        .print-btn-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 2rem;
+        }
+
+        .btn-print {
+            background-color: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 2rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        .btn-print:hover {
+            background-color: var(--secondary);
+            transform: translateY(-1px);
+        }
+
+        /* Secciones de Ejercicios */
+        .exercise-section {
+            margin-bottom: 4rem;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .exercise-section h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.6rem;
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-subsection {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border);
+            padding: 1.8rem;
+            border-radius: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-subsection h3 {
+            font-size: 1.15rem;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .theory-text {
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .question-list {
+            list-style: none;
+            padding-left: 0.5rem;
+        }
+
+        .question-list li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.2rem;
+        }
+
+        .question-list li::before {
+            content: "•";
+            color: var(--secondary);
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+
+        /* Pasos Matemáticos */
+        .math-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .step {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .step-num {
+            background-color: var(--primary);
+            color: #ffffff;
+            font-weight: 700;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.8rem;
+        }
+
+        .step code {
+            display: block;
+            background-color: #ffffff;
+            border: 1px solid var(--border);
+            padding: 0.6rem 1rem;
+            border-radius: 0.4rem;
+            margin-top: 0.4rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        /* Caja de Resultados */
+        .results-box {
+            background-color: #f3f4f6;
+            border: 1px solid var(--primary);
+            border-left: 6px solid var(--primary);
+            border-radius: 0.6rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .results-box h4 {
+            color: var(--primary);
+            font-size: 1.05rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .res-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .res-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .res-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .res-row span {
+            color: var(--text-light);
+        }
+
+        .res-row strong {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Estilo de la Propuesta EP-05 */
+        .dashboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .dashboard-item {
+            background-color: var(--bg-light);
+            border-left: 4px solid var(--secondary);
+            padding: 1.2rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+
+        .dashboard-item h4 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .dashboard-item p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Estilos de Impresión */
+        @media print {
+            .print-btn-container {
+                display: none !important;
+            }
+
+            body {
+                padding: 0;
+                font-size: 11pt;
+            }
+
+            .header-card {
+                border-color: #000000;
+                background-color: #ffffff !important;
+            }
+
+            .links-box {
+                background-color: #ffffff !important;
+                border-color: #000000 !important;
+                color: #000000 !important;
+            }
+
+            .exercise-section {
+                page-break-before: always;
+                break-before: page;
+            }
+
+            .exercise-section:first-of-type {
+                page-break-before: avoid;
+                break-before: avoid;
+            }
+
+            .section-subsection {
+                background-color: #ffffff !important;
+                border-color: #000000 !important;
+            }
+
+            .results-box {
+                background-color: #f3f4f6 !important;
+                border-color: #000000 !important;
+            }
+
+            .step-num {
+                background-color: #000000 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Botón para imprimir / guardar PDF -->
+        <div class="print-btn-container">
+            <button class="btn-print" onclick="window.print()">
+                🖨️ Guardar Reporte como PDF
+            </button>
+        </div>
+
+        <!-- Ficha de Portada / Información del Alumno -->
+        <header class="header-card">
+            <h1>Reporte Académico de Robótica y Automatización</h1>
+            <p style="color: var(--text-light); font-size: 1.1rem;">Resolución Analítica y Desarrollo Técnico de Ejercicios Prácticos.</p>
+            
+            <div class="info-grid">
+                <div class="info-item">
+                    <span>Alumno</span>
+                    <strong>Edgar Alexis Ramos Trujillo</strong>
+                </div>
+                <div class="info-item">
+                    <span>Código de Alumno</span>
+                    <strong>2315220137</strong>
+                </div>
+                <div class="info-item">
+                    <span>Profesora</span>
+                    <strong>Dra. Luzbeth Karin Navarrete Leal</strong>
+                </div>
+                <div class="info-item">
+                    <span>Asignatura</span>
+                    <strong>Robótica y Automatización</strong>
+                </div>
+            </div>
+
+            <div class="links-box">
+                <p><strong>Repositorio GitHub:</strong> <a href="https://github.com/Tiburonchin/ROBOTICA-Y-AUTOMATIZACI-N" target="_blank">https://github.com/Tiburonchin/ROBOTICA-Y-AUTOMATIZACI-N</a></p>
+                <p style="margin-top: 0.5rem;"><strong>Aplicación Web de Simulaciones:</strong> <a href="https://tiburonchin.github.io/ROBOTICA-Y-AUTOMATIZACI-N/" target="_blank">https://tiburonchin.github.io/ROBOTICA-Y-AUTOMATIZACI-N/</a></p>
+            </div>
+        </header>
+
+        <!-- EP-01 -->
+        <section class="exercise-section">
+            <h2>EP-01 Selección de Pinza Paralela</h2>
+            
+            <div class="section-subsection">
+                <h3>Pregunta</h3>
+                <p class="theory-text">
+                    Se requiere una garra paralela para manipular botellas de vidrio de <strong>0.5 kg</strong> en una línea de embotellado. La aceleración máxima del brazo robótico es <strong>3 m/s²</strong>. La presión disponible es <strong>5.5 bar</strong>. Con <strong>FS = 2.0</strong> y <strong>η = 0.82</strong>, calcule:
+                </p>
+                <ul class="question-list">
+                    <li>(a) Fuerza mínima requerida de sujeción.</li>
+                    <li>(b) Área mínima necesaria del pistón.</li>
+                    <li>(c) Diámetro mínimo del émbolo.</li>
+                </ul>
+            </div>
+
+            <div class="section-subsection">
+                <h3>Resolución Matemática</h3>
+                <div class="math-steps">
+                    <div class="step">
+                        <span class="step-num">1</span>
+                        <p><strong>Fuerza Dinámica Total:</strong> Incluye los efectos combinados de la aceleración de la gravedad y la aceleración del brazo:<br>
+                        <code>F_din = m · (g + a) = 0.5 kg · (9.81 + 3) m/s² = 6.405 N</code></p>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">2</span>
+                        <p><strong>Fuerza Mínima Requerida con FS:</strong><br>
+                        <code>F_req = F_din · FS = 6.405 N · 2.0 = 12.81 N</code></p>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">3</span>
+                        <p><strong>Área Mínima del Pistón:</strong> Ajustada a la presión en Pascales (5.5 bar = 550,000 Pa) y eficiencia (η = 0.82):<br>
+                        <code>A_min = F_req / (P · η) = 12.81 / (550,000 · 0.82) = 2.84e-5 m² = 28.40 mm²</code></p>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">4</span>
+                        <p><strong>Diámetro Mínimo:</strong><br>
+                        <code>D_min = √(4 · A_min / π) = 6.01 mm</code></p>
+                    </div>
+                </div>
+
+                <div class="results-box">
+                    <h4>Resultados Analíticos Obtenidos</h4>
+                    <div class="res-grid">
+                        <div class="res-row"><span>Fuerza Requerida (a):</span> <strong>12.81 N</strong></div>
+                        <div class="res-row"><span>Área Mínima (b):</span> <strong>28.40 mm²</strong></div>
+                        <div class="res-row"><span>Diámetro Mínimo (c):</span> <strong>6.01 mm</strong></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EP-02 -->
+        <section class="exercise-section">
+            <h2>EP-02 Verificación de Pinza Angular</h2>
+            
+            <div class="section-subsection">
+                <h3>Pregunta</h3>
+                <p class="theory-text">
+                    Una garra angular existente tiene un pistón de <strong>Ø 25 mm</strong> y trabaja a <strong>4 bar</strong> de presión con <strong>η = 0.78</strong> y factor de brazo <strong>K_brazo = 0.65</strong>. Se le asigna la tarea de sujetar piezas de <strong>2 kg</strong> en un brazo con aceleración de <strong>5 m/s²</strong>. Determine si la garra es apta usando <strong>FS = 2.0</strong>. Si no lo es, determine la presión mínima de trabajo necesaria.
+                </p>
+            </div>
+
+            <div class="section-subsection">
+                <h3>Resolución Matemática</h3>
+                <div class="math-steps">
+                    <div class="step">
+                        <span class="step-num">1</span>
+                        <p><strong>Fuerza Mínima de Agarre Requerida:</strong><br>
+                        <code>F_req = m · (g + a) · FS = 2 kg · (9.81 + 5) m/s² · 2.0 = 59.24 N</code></p>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">2</span>
+                        <p><strong>Área del Embolo de la Garra (Ø 25 mm):</strong><br>
+                        <code>A = π · D² / 4 = π · (0.025 m)² / 4 = 4.9087e-4 m² (490.87 mm²)</code></p>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">3</span>
+                        <p><strong>Fuerza Real Disponible en la Garra Angular:</strong><br>
+                        <code>F_disp = P · A · η · K_brazo = 400,000 Pa · 4.9087e-4 m² · 0.78 · 0.65 = 99.55 N</code></p>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">4</span>
+                        <p><strong>Conclusión / Presión Mínima:</strong><br>
+                        Dado que <strong>99.55 N &gt; 59.24 N</strong>, la pinza angular es <strong>APTA</strong>. La presión mínima necesaria para sostener la pieza es:<br>
+                        <code>P_min = F_req / (A · η · K_brazo) = 2.38 bar</code></p>
+                    </div>
+                </div>
+
+                <div class="results-box">
+                    <h4>Resultados Analíticos Obtenidos</h4>
+                    <div class="res-grid">
+                        <div class="res-row"><span>Fuerza Requerida:</span> <strong>59.24 N</strong></div>
+                        <div class="res-row"><span>Fuerza Disponible (4 bar):</span> <strong>99.55 N</strong></div>
+                        <div class="res-row"><span>Veredicto Técnico:</span> <strong>APTA (Seguro a 4 bar)</strong></div>
+                        <div class="res-row"><span>Presión Mínima Requerida:</span> <strong>2.38 bar</strong></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EP-03 -->
+        <section class="exercise-section">
+            <h2>EP-03 Selección de Cilindros para Mesa XY</h2>
+            
+            <div class="section-subsection">
+                <h3>Pregunta</h3>
+                <p class="theory-text">
+                    Diseñar una mesa de coordenadas XY para posicionar un módulo de soldadura eléctrica de <strong>8 kg</strong>. Carrera Eje X: <strong>400 mm</strong>. Carrera Eje Y: <strong>200 mm</strong>. La aceleración requerida en ambos ejes es de <strong>1.5 m/s²</strong>. Con presión de <strong>6 bar</strong>, eficiencia <strong>η = 0.90</strong> y <strong>FS = 2.0</strong>, determine el diámetro mínimo del pistón para cada eje y la fuerza real disponible usando diámetros estándar comerciales.
+                </p>
+            </div>
+
+            <div class="section-subsection">
+                <h3>Resolución Matemática</h3>
+                <div class="math-steps">
+                    <div class="step">
+                        <span class="step-num">1</span>
+                        <p><strong>Fuerza Dinámica Requerida (Movimiento Horizontal):</strong><br>
+                        <code>F_req = m · a · FS = 8 kg · 1.5 m/s² · 2.0 = 24.0 N</code></p>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">2</span>
+                        <p><strong>Área Mínima del Émbolo (6 bar = 600,000 Pa):</strong><br>
+                        <code>A_min = F_req / (P · η) = 24.0 / (600,000 · 0.90) = 4.44e-5 m² = 44.44 mm²</code></p>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">3</span>
+                        <p><strong>Diámetro Teórico Mínimo del Actuador:</strong><br>
+                        <code>D_min = √(4 · A_min / π) = 7.52 mm</code></p>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">4</span>
+                        <p><strong>Fuerza Real con Cilindro Comercial Estándar (Ø 10 mm):</strong><br>
+                        <code>A_std = π · (0.01 m)² / 4 = 7.854e-5 m² (78.54 mm²)</code><br>
+                        <code>F_real = P · A_std · η = 600,000 · 7.854e-5 · 0.90 = 42.41 N</code></p>
+                    </div>
+                </div>
+
+                <div class="results-box">
+                    <h4>Resultados Analíticos Obtenidos</h4>
+                    <div class="res-grid">
+                        <div class="res-row"><span>Fuerza Requerida:</span> <strong>24.0 N</strong></div>
+                        <div class="res-row"><span>Diámetro Mínimo Calculado:</span> <strong>7.52 mm</strong></div>
+                        <div class="res-row"><span>Cilindro Comercial Recomendado:</span> <strong>Ø 10 mm</strong></div>
+                        <div class="res-row"><span>Fuerza Real Disponible (Ø 10 mm):</span> <strong>42.41 N</strong></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EP-04 -->
+        <section class="exercise-section">
+            <h2>EP-04 Tiempo de Ciclo de la Secuencia</h2>
+            
+            <div class="section-subsection">
+                <h3>Pregunta</h3>
+                <p class="theory-text">
+                    Para la mesa XY diseñada (EP-03), si se regulan los caudales de control a: <strong>Q_X = 20 L/min</strong> y <strong>Q_Y = 12 L/min</strong>, y se emplean diámetros comerciales de <strong>D_X = 50 mm</strong> y <strong>D_Y = 40 mm</strong>. Calcule la velocidad de cada eje, el tiempo de desplazamiento para sus respectivas carreras (400 mm y 200 mm) y el tiempo total para cumplir el ciclo secuencial continuo <strong>X+ → Y+ → Y- → X-</strong>.
+                </p>
+            </div>
+
+            <div class="section-subsection">
+                <h3>Resolución Matemática</h3>
+                <div class="math-steps">
+                    <div class="step">
+                        <span class="step-num">1</span>
+                        <p><strong>Conversión de Caudales a Sistema Internacional:</strong><br>
+                        <code>Q_X = 20 L/min = (20 / 60,000) m³/s = 3.333e-4 m³/s</code><br>
+                        <code>Q_Y = 12 L/min = (12 / 60,000) m³/s = 2.000e-4 m³/s</code></p>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">2</span>
+                        <p><strong>Áreas de Cilindros de Diámetro Seleccionado:</strong><br>
+                        <code>A_X = π · (0.05 m)² / 4 = 1.9635e-3 m²</code><br>
+                        <code>A_Y = π · (0.04 m)² / 4 = 1.2566e-3 m²</code></p>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">3</span>
+                        <p><strong>Velocidades de Carrera del Actuador:</strong><br>
+                        <code>V_X = Q_X / A_X = 3.333e-4 / 1.9635e-3 = 0.170 m/s</code><br>
+                        <code>V_Y = Q_Y / A_Y = 2.000e-4 / 1.2566e-3 = 0.159 m/s</code></p>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">4</span>
+                        <p><strong>Tiempos de Ciclo Individuales y Totales:</strong><br>
+                        <code>t_X = L_X / V_X = 0.40 m / 0.170 m/s = 2.35 s</code><br>
+                        <code>t_Y = L_Y / V_Y = 0.20 m / 0.159 m/s = 1.26 s</code><br>
+                        <code>t_total = 2 · (t_X + t_Y) = 2 · (2.35 + 1.26) = 7.22 s</code></p>
+                    </div>
+                </div>
+
+                <div class="results-box">
+                    <h4>Resultados Analíticos Obtenidos</h4>
+                    <div class="res-grid">
+                        <div class="res-row"><span>Velocidad Eje X (V_X):</span> <strong>0.170 m/s</strong></div>
+                        <div class="res-row"><span>Velocidad Eje Y (V_Y):</span> <strong>0.159 m/s</strong></div>
+                        <div class="res-row"><span>Tiempo Eje X (t_X):</span> <strong>2.35 s</strong></div>
+                        <div class="res-row"><span>Tiempo Eje Y (t_Y):</span> <strong>1.26 s</strong></div>
+                        <div class="res-row"><span>Tiempo Total Ciclo Completo:</span> <strong>7.22 s</strong></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EP-05 -->
+        <section class="exercise-section">
+            <h2>EP-05 Propuesta y Justificación del Sistema Pick & Place</h2>
+            
+            <div class="section-subsection">
+                <h3>Estructura del Sistema Diseñado</h3>
+                <div class="dashboard-list">
+                    <div class="dashboard-item">
+                        <h4>1. Unidad de Mantenimiento FRL</h4>
+                        <p>Conexión G1/4" adaptada a un caudal regulado de hasta 1200 L/min, garantizando aire limpio, lubricado y a presión constante para satisfacer la demanda dinámica del sistema.</p>
+                    </div>
+                    <div class="dashboard-item">
+                        <h4>2. Actuadores Neumáticos e interfaces de Agarre</h4>
+                        <p>Cilindros guiados lineales de doble efecto con amortiguación neumática ajustable y pinza neumática paralela de gran precisión con fuerza nominal mayor a 60 N.</p>
+                    </div>
+                    <div class="dashboard-item">
+                        <h4>3. Bloque de Distribución y Electroválvulas</h4>
+                        <p>Cuerpo compacto de electroválvulas direccionales 5/2 de control biestable operadas electrónicamente a 24V DC para control del avance y retroceso seguro.</p>
+                    </div>
+                    <div class="dashboard-item">
+                        <h4>4. Automatización con PLC S7-1200</h4>
+                        <p>Sistema programable que realiza control secuencial determinista e integra retroalimentación mediante sensores magnéticos integrados en las ranuras de los actuadores.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
