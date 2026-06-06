@@ -21,40 +21,29 @@ gsap.from(".gsap-hero-right", {
     delay: 0.3
 });
 
-// Slideshow del Hero
-let currentSlide = 0;
-const slides = document.querySelectorAll('.hero-slide-img');
-if (slides.length > 0) {
-    setInterval(() => {
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (currentSlide + 1) % slides.length;
-        slides[currentSlide].classList.add('active');
-    }, 4000);
-}
-
-// Parallax interactivo 3D en el Hero
+// Parallax interactivo 3D en el Hero (para el Spline-Container)
 const heroSection = document.querySelector('.hero-section');
-const slideshowContainer = document.querySelector('.hero-slideshow-container');
+const splineContainer = document.querySelector('.spline-container');
 
-if (heroSection && slideshowContainer) {
+if (heroSection && splineContainer) {
     heroSection.addEventListener('mousemove', (e) => {
         const { clientX, clientY } = e;
         const { width, height, left, top } = heroSection.getBoundingClientRect();
         const x = (clientX - left - width / 2) / (width / 2);
         const y = (clientY - top - height / 2) / (height / 2);
 
-        gsap.to(slideshowContainer, {
-            rotateY: x * 15,
-            rotateX: -y * 15,
-            x: x * 15,
-            y: y * 15,
+        gsap.to(splineContainer, {
+            rotateY: x * 10,
+            rotateX: -y * 10,
+            x: x * 10,
+            y: y * 10,
             duration: 0.6,
             ease: "power2.out"
         });
     });
 
     heroSection.addEventListener('mouseleave', () => {
-        gsap.to(slideshowContainer, {
+        gsap.to(splineContainer, {
             rotateX: 0,
             rotateY: 0,
             x: 0,
@@ -305,6 +294,7 @@ function initChart01() {
     });
 }
 
+// Actualizar gráfico de EP01
 function updateChart01(currentD, currentP) {
     const m = parseFloat(document.getElementById('slide-m1').value);
     const a = parseFloat(document.getElementById('slide-a1').value);

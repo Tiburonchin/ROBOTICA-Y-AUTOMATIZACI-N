@@ -13,6 +13,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Spline 3D Viewer module script -->
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.0/build/spline-viewer.js"></script>
     <!-- Styles -->
     <link rel="stylesheet" href="style.css">
 </head>
@@ -67,13 +69,10 @@
                 <a href="#ep01" class="btn-primary">Ver Ejercicios <span class="arrow"><i data-lucide="arrow-right"></i></span></a>
             </div>
 
-            <!-- Columna Gráfica / Natural con Imágenes Cambiantes -->
+            <!-- Columna Gráfica / 3D con Spline-Viewer -->
             <div class="hero-graphic gsap-hero-right">
-                <div class="hero-slideshow-container">
-                    <img src="assets/robotic_arm.png" alt="Brazo Robótico" class="hero-slide-img active">
-                    <img src="assets/automation_gantry.png" alt="Mesa XY Neumática" class="hero-slide-img">
-                    <img src="assets/parallel_gripper.png" alt="Garra de Sujeción" class="hero-slide-img">
-                    <div class="slideshow-overlay"></div>
+                <div class="spline-container">
+                    <spline-viewer url="https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode"></spline-viewer>
                 </div>
             </div>
         </div>
