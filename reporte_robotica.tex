@@ -8,11 +8,9 @@
 \geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{booktabs}
 \usepackage{fancyhdr}
 \usepackage{hyperref}
 \usepackage{graphicx}
-\usepackage{listings}
 \usepackage{color}
 
 % --- Configuración de Enlaces (Hyperref) ---
@@ -35,321 +33,87 @@
 \renewcommand{\headrulewidth}{0.5pt}
 \renewcommand{\footrulewidth}{0.5pt}
 
-% --- Título ---
-\title{
-    \vspace{-1.5cm}
-    \textbf{\large Universidad Nacional Mayor de San Marcos}\\
-    \textbf{\large Facultad de Ingeniería de Sistemas e Informática}\\
-    \vspace{0.8cm}
-    \hrule
-    \vspace{0.4cm}
-    \Large \textbf{Reporte Académico: Robótica y Automatización de Procesos}\\
-    \large Resolución Analítica y Diseño de Sistemas Neumáticos y Garras\\
-    \vspace{0.4cm}
-    \hrule
-}
-
-\author{
-    \textbf{Alumno:} Edgar Alexis Ramos Trujillo \\
-    \textbf{Código:} 2315220137 \\
-    \textbf{Profesora:} Dra. Luzbeth Karin Navarrete Leal
-}
-\date{\today}
-
 \begin{document}
 
-\maketitle
-\thispagestyle{empty} % Quita la cabecera en la primera página
-
-\vspace{0.8cm}
-\begin{abstract}
-Este documento presenta el desarrollo formal y detallado de los ejercicios prácticos del curso de Robótica y Automatización. Se abordan problemas de selección de garras neumáticas (paralelas y angulares), diseño y dimensionamiento de actuadores para una mesa de coordenadas XY, análisis de tiempos de ciclo secuenciales y la justificación técnica de los componentes requeridos para la integración de una celda de manufactura Pick \& Place.
-\end{abstract}
-
-\vspace{0.8cm}
-\begin{center}
-    \textbf{Enlaces de Acceso Directo:} \\
-    \vspace{0.2cm}
-    \textbf{Repositorio en GitHub:} \\
-    \url{https://github.com/Tiburonchin/ROBOTICA-Y-AUTOMATIZACI-N} \\
-    \vspace{0.2cm}
-    \textbf{Página Web de Simulaciones Interactivas:} \\
-    \url{https://tiburonchin.github.io/ROBOTICA-Y-AUTOMATIZACI-N/}
-\end{center}
+% ==========================================
+% PORTADA (CARÁTULA)
+% ==========================================
+\begin{titlepage}
+    \centering
+    
+    % Logo de la Universidad Nacional del Callao
+    \includegraphics[width=4cm]{unac_logo.png} \\
+    \vspace{0.8cm}
+    
+    \textbf{\Large UNIVERSIDAD NACIONAL DEL CALLAO} \\
+    \textbf{\large FACULTAD DE INGENIERÍA ELÉCTRICA Y ELECTRÓNICA} \\
+    \textbf{\large ESCUELA PROFESIONAL DE INGENIERÍA ELECTRÓNICA} \\
+    \vspace{1.2cm}
+    
+    \hrule
+    \vspace{0.4cm}
+    {\Large \textbf{RESOLUCIÓN DE EJERCICIOS PROPUESTOS}} \\
+    \vspace{0.3cm}
+    {\large \textbf{ASIGNATURA: ROBÓTICA Y AUTOMATIZACIÓN DE PROCESOS}} \\
+    \vspace{0.4cm}
+    \hrule
+    \vspace{1.5cm}
+    
+    \begin{flushleft}
+        \textbf{ESTUDIANTE:} EDGAR ALEXIS RAMOS TRUJILLO \\
+        \vspace{0.2cm}
+        \textbf{CÓDIGO:} 2315220137 \\
+        \vspace{0.2cm}
+        \textbf{DOCENTE:} DRA. LUZBETH KARIN NAVARRETE LEAL \\
+        \vspace{0.2cm}
+        \textbf{FECHA:} 06 DE JUNIO DE 2026
+    \end{flushleft}
+    
+    \vfill
+    \textbf{CALLAO - PERÚ} \\
+    2026
+\end{titlepage}
 
 \newpage
 \pagenumbering{arabic}
 
 % ==========================================
-% EJERCICIO 1
+% ACCESO AL DESARROLLO DE EJERCICIOS
 % ==========================================
-\section{EP-01: Selección de Pinza Paralela para Embotellado}
+\section*{Acceso al Desarrollo de Ejercicios}
 
-\subsection{Enunciado}
-Se requiere una garra paralela para manipular botellas de vidrio de $0.5\text{ kg}$ en una línea de embotellado. La aceleración máxima del brazo robótico es $3\text{ m/s}^2$ y la presión disponible es $5.5\text{ bar}$. Considerando un Factor de Seguridad ($FS = 2.0$) y una eficiencia general de la pinza ($\eta = 0.82$), calcule:
-\begin{enumerate}
-    \item[(a)] Fuerza mínima requerida de sujeción.
-    \item[(b)] Área mínima necesaria del pistón.
-    \item[(c)] Diámetro mínimo del émbolo.
-\end{enumerate}
+\vspace{0.5cm}
 
-\subsection{Cálculos y Resolución Matemática}
+Estimada docente, el desarrollo analítico completo de los cinco ejercicios propuestos \textbf{(EP-01, EP-02, EP-03, EP-04 y EP-05)}, que abarca el cálculo de fuerzas de agarre, dimensionamiento de actuadores, tiempos de ciclo y la justificación técnica de componentes, ha sido implementado en formato digital interactivo en la plataforma del proyecto.
 
-\begin{enumerate}
-    \item \textbf{Cálculo de la Fuerza Dinámica Total ($F_{\text{din}}$):} \\
-    La fuerza dinámica debe contrarrestar la aceleración gravitatoria ($g \approx 9.81\text{ m/s}^2$) y soportar la aceleración máxima del manipulador ($a = 3\text{ m/s}^2$):
-    \begin{equation}
-        F_{\text{din}} = m \cdot (g + a) = 0.5\text{ kg} \cdot (9.81 + 3)\text{ m/s}^2 = 6.405\text{ N}
-    \end{equation}
+\vspace{0.4cm}
 
-    \item \textbf{Aplicación del Factor de Seguridad ($F_{\text{req}}$):} \\
-    Para asegurar que no ocurran deslizamientos por variaciones dinámicas en la velocidad del brazo:
-    \begin{equation}
-        F_{\text{req}} = F_{\text{din}} \cdot FS = 6.405\text{ N} \cdot 2.0 = 12.81\text{ N}
-    \end{equation}
+Para una revisión interactiva del modelado matemático, visualización de animaciones 2D/3D y consulta de los códigos fuente completos, por favor ingrese a los enlaces resaltados a continuación:
 
-    \item \textbf{Área Mínima del Pistón ($A_{\text{min}}$):} \\
-    La presión en unidades del S.I. es $5.5\text{ bar} = 550,000\text{ Pa}$. Utilizando la eficiencia neumática de la pinza ($\eta = 0.82$):
-    \begin{equation}
-        A_{\text{min}} = \frac{F_{\text{req}}}{P \cdot \eta} = \frac{12.81\text{ N}}{550,000\text{ Pa} \cdot 0.82} = 2.84035 \times 10^{-5}\text{ m}^2 \approx 28.40\text{ mm}^2
-    \end{equation}
+\vspace{1cm}
 
-    \item \textbf{Diámetro Mínimo del Émbolo ($D_{\text{min}}$):} \\
-    A partir de la relación geométrica del área de un pistón circular:
-    \begin{equation}
-        D_{\text{min}} = \sqrt{\frac{4 \cdot A_{\text{min}}}{\pi}} = \sqrt{\frac{4 \cdot 28.40\text{ mm}^2}{\pi}} \approx 6.01\text{ mm}
-    \end{equation}
-\end{enumerate}
+\begin{center}
+    \setlength{\fboxsep}{12pt}
+    \colorbox[HTML]{EFF6FF}{
+        \begin{minipage}{0.9\textwidth}
+            \centering
+            \vspace{0.2cm}
+            \textbf{PORTAL WEB DE SIMULACIONES E INFORME INTERACTIVO:} \\
+            \vspace{0.2cm}
+            \url{https://tiburonchin.github.io/ROBOTICA-Y-AUTOMATIZACI-N/} \\
+            
+            \vspace{0.8cm}
+            
+            \textbf{REPOSITORIO EN GITHUB (CÓDIGO Y ARCHIVOS LaTeX DE COMPILACIÓN):} \\
+            \vspace{0.2cm}
+            \url{https://github.com/Tiburonchin/ROBOTICA-Y-AUTOMATIZACI-N}
+            \vspace{0.2cm}
+        \end{minipage}
+    }
+\end{center}
 
-\subsection{Resultados}
-\begin{table}[h!]
-    \centering
-    \begin{tabular}{lcr}
-        \toprule
-        \textbf{Parámetro} & \textbf{Ecuación} & \textbf{Valor} \\
-        \midrule
-        Fuerza de Sujeción Requerida & $F_{\text{req}} = m(g+a)FS$ & $12.81\text{ N}$ \\
-        Área del Pistón Requerida & $A = F_{\text{req}}/(P \cdot \eta)$ & $28.40\text{ mm}^2$ \\
-        Diámetro de Émbolo Mínimo & $D = \sqrt{4A/\pi}$ & $\mathbf{6.01\text{ mm}}$ \\
-        \bottomrule
-    \end{tabular}
-    \caption{Resultados analíticos para la selección de la garra paralela.}
-\end{table}
+\vspace{1.5cm}
 
-\newpage
-
-% ==========================================
-% EJERCICIO 2
-% ==========================================
-\section{EP-02: Verificación de Capacidad de Garra Angular}
-
-\subsection{Enunciado}
-Una garra angular existente posee un émbolo de diámetro $\varnothing 25\text{ mm}$ y trabaja a una presión nominal de $4\text{ bar}$ con una eficiencia de $\eta = 0.78$ y un factor de transmisión mecánica del brazo del actuador $K_{\text{brazo}} = 0.65$. Determine si la garra es capaz de manipular una pieza de $2\text{ kg}$ bajo una aceleración del robot de $5\text{ m/s}^2$ utilizando un factor de seguridad de $FS = 2.0$. De no ser apta, calcule la presión de trabajo mínima requerida.
-
-\subsection{Cálculos y Resolución Matemática}
-
-\begin{enumerate}
-    \item \textbf{Cálculo de la Fuerza Requerida de Agarre ($F_{\text{req}}$):} \\
-    Sujeto a la masa de la carga ($2\text{ kg}$), aceleración del brazo ($5\text{ m/s}^2$) y factor de seguridad ($2.0$):
-    \begin{equation}
-        F_{\text{req}} = m \cdot (g + a) \cdot FS = 2\text{ kg} \cdot (9.81 + 5)\text{ m/s}^2 \cdot 2.0 = 59.24\text{ N}
-    \end{equation}
-
-    \item \textbf{Área del Émbolo Existente ($A$):} \\
-    Con un diámetro de $25\text{ mm} = 0.025\text{ m}$:
-    \begin{equation}
-        A = \frac{\pi \cdot D^2}{4} = \frac{\pi \cdot (0.025\text{ m})^2}{4} \approx 4.9087 \times 10^{-4}\text{ m}^2 = 490.87\text{ mm}^2
-    \end{equation}
-
-    \item \textbf{Fuerza Real Disponible en la Garra ($F_{\text{disp}}$):} \\
-    A una presión de trabajo de $4\text{ bar} = 400,000\text{ Pa}$:
-    \begin{equation}
-        F_{\text{disp}} = P \cdot A \cdot \eta \cdot K_{\text{brazo}} = 400,000 \cdot 4.9087 \times 10^{-4} \cdot 0.78 \cdot 0.65 = 99.55\text{ N}
-    \end{equation}
-
-    \item \textbf{Evaluación de Aptitud:} \\
-    Dado que $F_{\text{disp}} = 99.55\text{ N} > F_{\text{req}} = 59.24\text{ N}$, la garra existente es \textbf{APTA} para realizar la tarea propuesta bajo las condiciones iniciales.
-
-    \item \textbf{Cálculo de Presión Mínima Requerida ($P_{\text{min}}$):} \\
-    En caso extremo, la presión límite de sujeción segura ($FS=2.0$) se halla mediante:
-    \begin{equation}
-        P_{\text{min}} = \frac{F_{\text{req}}}{A \cdot \eta \cdot K_{\text{brazo}}} = \frac{59.24\text{ N}}{4.9087 \times 10^{-4} \cdot 0.78 \cdot 0.65} \approx 238,016\text{ Pa} = 2.38\text{ bar}
-    \end{equation}
-\end{enumerate}
-
-\subsection{Resultados}
-\begin{table}[h!]
-    \centering
-    \begin{tabular}{lcr}
-        \toprule
-        \textbf{Criterio} & \textbf{Ecuación} & \textbf{Valor} \\
-        \midrule
-        Fuerza Mínima Necesaria & $F_{\text{req}} = m(g+a)FS$ & $59.24\text{ N}$ \\
-        Fuerza Disponible (4 bar) & $F_{\text{disp}} = P \cdot A \cdot \eta \cdot K$ & $99.55\text{ N}$ \\
-        \textbf{Veredicto Técnico} & $F_{\text{disp}} \geq F_{\text{req}}$ & \textbf{APTA} \\
-        Presión Mínima Operativa & $P_{\text{min}}$ & $\mathbf{2.38\text{ bar}}$ \\
-        \bottomrule
-    \end{tabular}
-    \caption{Verificación y validación de la pinza angular.}
-\end{table}
-
-\newpage
-
-% ==========================================
-% EJERCICIO 3
-% ==========================================
-\section{EP-03: Dimensionamiento de Actuadores para Mesa XY}
-
-\subsection{Enunciado}
-Se debe diseñar una mesa de coordenadas XY impulsada por actuadores neumáticos horizontales para posicionar un módulo de soldadura eléctrica de $8\text{ kg}$. Las aceleraciones en los ejes X e Y son de $1.5\text{ m/s}^2$ sobre carreras de $400\text{ mm}$ y $200\text{ mm}$ respectivamente. Utilizando una presión disponible de $6\text{ bar}$, eficiencia cilíndrica $\eta = 0.90$ y $FS = 2.0$, calcule el diámetro mínimo del émbolo para cada eje y la fuerza real disponible empleando dimensiones de cilindros comerciales estándar.
-
-\subsection{Cálculos y Resolución Matemática}
-
-\begin{enumerate}
-    \item \textbf{Cálculo de la Fuerza Dinámica Requerida ($F_{\text{req}}$):} \\
-    Al tratarse de movimiento estrictamente horizontal, no interviene el peso del módulo, sólo su inercia:
-    \begin{equation}
-        F_{\text{req}} = m \cdot a \cdot FS = 8\text{ kg} \cdot 1.5\text{ m/s}^2 \cdot 2.0 = 24.0\text{ N}
-    \end{equation}
-
-    \item \textbf{Área Mínima del Émbolo ($A_{\text{min}}$):} \\
-    Con presión de trabajo $6\text{ bar} = 600,000\text{ Pa}$ y eficiencia $\eta = 0.90$:
-    \begin{equation}
-        A_{\text{min}} = \frac{F_{\text{req}}}{P \cdot \eta} = \frac{24.0\text{ N}}{600,000\text{ Pa} \cdot 0.90} \approx 4.4444 \times 10^{-5}\text{ m}^2 = 44.44\text{ mm}^2
-    \end{equation}
-
-    \item \textbf{Diámetro Teórico Mínimo ($D_{\text{min}}$):}
-    \begin{equation}
-        D_{\text{min}} = \sqrt{\frac{4 \cdot A_{\text{min}}}{\pi}} = \sqrt{\frac{4 \cdot 44.44\text{ mm}^2}{\pi}} \approx 7.52\text{ mm}
-    \end{equation}
-
-    \item \textbf{Selección Comercial y Fuerza Real ($F_{\text{real}}$):} \\
-    El diámetro comercial normalizado inmediatamente superior es $D = 10\text{ mm}$. Calculamos la fuerza real disponible con este diámetro estándar:
-    \begin{equation}
-        A_{\text{std}} = \frac{\pi \cdot (0.010\text{ m})^2}{4} = 7.854 \times 10^{-5}\text{ m}^2 = 78.54\text{ mm}^2
-    \end{equation}
-    \begin{equation}
-        F_{\text{real}} = P \cdot A_{\text{std}} \cdot \eta = 600,000\text{ Pa} \cdot 7.854 \times 10^{-5}\text{ m}^2 \cdot 0.90 \approx 42.41\text{ N}
-    \end{equation}
-\end{enumerate}
-
-\subsection{Resultados}
-\begin{table}[h!]
-    \centering
-    \begin{tabular}{lcr}
-        \toprule
-        \textbf{Parámetro} & \textbf{Eje X} & \textbf{Eje Y} \\
-        \midrule
-        Fuerza Dinámica Necesaria & $24.0\text{ N}$ & $24.0\text{ N}$ \\
-        Diámetro Teórico Mínimo & $7.52\text{ mm}$ & $7.52\text{ mm}$ \\
-        \textbf{Diámetro Comercial Elegido} & $\mathbf{10.0\text{ mm}}$ & $\mathbf{10.0\text{ mm}}$ \\
-        Fuerza Real Proporcionada & $42.41\text{ N}$ & $42.41\text{ N}$ \\
-        \bottomrule
-    \end{tabular}
-    \caption{Dimensiones de cilindros normalizados para la mesa XY.}
-\end{table}
-
-\newpage
-
-% ==========================================
-% EJERCICIO 4
-% ==========================================
-\section{EP-04: Análisis del Tiempo de Ciclo de la Secuencia}
-
-\subsection{Enunciado}
-Para la mesa XY diseñada en el ejercicio EP-03, determine las velocidades de avance de los actuadores, los tiempos de desplazamiento de carrera y el tiempo total de ciclo para una secuencia coordinada continua $X+ \to Y+ \to Y- \to X-$. Se asumen caudales regulados a $Q_X = 20\text{ L/min}$ y $Q_Y = 12\text{ L/min}$, y se seleccionaron diámetros comerciales estándar de $D_X = 50\text{ mm}$ y $D_Y = 40\text{ mm}$.
-
-\subsection{Cálculos y Resolución Matemática}
-
-\begin{enumerate}
-    \item \textbf{Conversión de Caudales a Sistema Internacional ($Q$):}
-    \begin{equation}
-        Q_X = \frac{20\text{ L/min}}{60,000} = 3.333 \times 10^{-4}\text{ m}^3\text{/s}
-    \end{equation}
-    \begin{equation}
-        Q_Y = \frac{12\text{ L/min}}{60,000} = 2.000 \times 10^{-4}\text{ m}^3\text{/s}
-    \end{equation}
-
-    \item \textbf{Cálculo de Áreas de Trabajo ($A$):}
-    \begin{equation}
-        A_X = \frac{\pi \cdot (0.050\text{ m})^2}{4} \approx 1.9635 \times 10^{-3}\text{ m}^2
-    \end{equation}
-    \begin{equation}
-        A_Y = \frac{\pi \cdot (0.040\text{ m})^2}{4} \approx 1.2566 \times 10^{-3}\text{ m}^2
-    \end{equation}
-
-    \item \textbf{Velocidad de cada Eje ($V$):}
-    \begin{equation}
-        V_X = \frac{Q_X}{A_X} = \frac{3.333 \times 10^{-4}\text{ m}^3\text{/s}}{1.9635 \times 10^{-3}\text{ m}^2} \approx 0.170\text{ m/s}
-    \end{equation}
-    \begin{equation}
-        V_Y = \frac{Q_Y}{A_Y} = \frac{2.000 \times 10^{-4}\text{ m}^3\text{/s}}{1.2566 \times 10^{-3}\text{ m}^2} \approx 0.159\text{ m/s}
-    \end{equation}
-
-    \item \textbf{Tiempos de Desplazamiento por Eje ($t$):} \\
-    Sujeto a carreras de $L_X = 400\text{ mm} = 0.40\text{ m}$ y $L_Y = 200\text{ mm} = 0.20\text{ m}$:
-    \begin{equation}
-        t_X = \frac{L_X}{V_X} = \frac{0.40\text{ m}}{0.170\text{ m/s}} \approx 2.35\text{ s}
-    \end{equation}
-    \begin{equation}
-        t_Y = \frac{L_Y}{V_Y} = \frac{0.20\text{ m}}{0.159\text{ m/s}} \approx 1.26\text{ s}
-    \end{equation}
-
-    \item \textbf{Tiempo de Ciclo Total ($t_{\text{total}}$):} \\
-    Para una secuencia completa de 4 movimientos secuenciales ($X+ \to Y+ \to Y- \to X-$):
-    \begin{equation}
-        t_{\text{total}} = 2 \cdot (t_X + t_Y) = 2 \cdot (2.35\text{ s} + 1.26\text{ s}) = 7.22\text{ s}
-    \end{equation}
-\end{enumerate}
-
-\subsection{Resultados}
-\begin{table}[h!]
-    \centering
-    \begin{tabular}{lccr}
-        \toprule
-        \textbf{Eje} & \textbf{Velocidad} & \textbf{Carrera} & \textbf{Tiempo de Avance} \\
-        \midrule
-        Eje X & $0.170\text{ m/s}$ & $400\text{ mm}$ & $2.35\text{ s}$ \\
-        Eje Y & $0.159\text{ m/s}$ & $200\text{ mm}$ & $1.26\text{ s}$ \\
-        \midrule
-        \multicolumn{3}{l}{\textbf{Tiempo Total del Ciclo}} & $\mathbf{7.22\text{ s}}$ \\
-        \bottomrule
-    \end{tabular}
-    \caption{Cinemática y tiempos operativos del ciclo secuencial.}
-\end{table}
-
-\newpage
-
-% ==========================================
-% EJERCICIO 5
-% ==========================================
-\section{EP-05: Justificación Técnica de Componentes Pick \& Place}
-
-Para la implementación física del sistema neumático secuencial, se definieron las especificaciones técnicas de los siguientes bloques constructivos primarios:
-
-\subsection{Unidad de Mantenimiento FRL}
-\begin{itemize}
-    \item \textbf{Función:} Limpieza, regulación de presión y lubricación del aire comprimido.
-    \item \textbf{Especificación:} Conexión G1/4", capacidad de caudal máximo de $1200\text{ L/min}$ (suficiente para cubrir con holgura el consumo de los ejes), filtración fina de 40 micras y purga automática de condensados para prolongar la vida útil de los sellos de los actuadores.
-\end{itemize}
-
-\subsection{Actuadores Lineales y de Agarre}
-\begin{itemize}
-    \item \textbf{Eje X:} Cilindro guiado lineal neumático de doble efecto, diámetro $\varnothing 25\text{ mm}$, carrera de $250\text{ mm}$ con amortiguación neumática regulable en extremos.
-    \item \textbf{Eje Y:} Cilindro de doble efecto, diámetro $\varnothing 25\text{ mm}$, carrera de $150\text{ mm}$.
-    \item \textbf{Garra de Agarre:} Actuador de pinza paralela con fuerza de retención neumática superior a $60\text{ N}$ para asegurar cargas de hasta $1.5\text{ kg}$ con margen de seguridad industrial.
-\end{itemize}
-
-\subsection{Bloque de Electroválvulas de Control}
-\begin{itemize}
-    \item \textbf{Función:} Control bidireccional de los actuadores neumáticos.
-    \item \textbf{Especificación:} Juego de 3 electroválvulas direccionales 5/2 de accionamiento solenoide eléctrico (24V DC). Modelos biestables para el avance/retroceso de los carros de coordenadas, y monoestable con retorno por resorte para la garra como medida de protección de caída de piezas ante cortes eléctricos.
-\end{itemize}
-
-\subsection{Controlador Lógico Programable (PLC)}
-\begin{itemize}
-    \item \textbf{Función:} Coordinación secuencial y determinista del sistema.
-    \item \textbf{Especificación:} PLC Siemens S7-1200 CPU 1214C DC/DC/DC, configurado con sensores magnéticos de proximidad de efecto Hall en las ranuras de los cilindros (6 entradas digitales activas en total) y salidas de estado sólido rápidas a transistor para el disparo preciso de las válvulas de solenoide.
-\end{itemize}
+\noindent \textbf{Nota de revisión:} En la aplicación web interactiva podrá ingresar valores personalizados de presión (bar), masas (kg) y eficiencia ($\eta$) para simular dinámicamente el comportamiento físico de cada una de las pinzas (paralela y angular), la mesa XY, y observar la animación de secuencias en tiempo real.
 
 \end{document}
