@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robótica y Automatización - Ejercicios</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Partículas de fondo animadas -->
+    <div id="particles-bg"></div>
+
+    <header class="presentation-section">
+        <div class="glass-card header-content">
+            <h1 class="gsap-title">Robótica y Automatización de Procesos</h1>
+            <div class="student-info gsap-info">
+                <div class="info-item">
+                    <span class="icon">🎓</span>
+                    <div class="details">
+                        <span class="label">Alumno</span>
+                        <span class="value">Edgar Alexis Ramos Trujillo</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <span class="icon">👩‍🏫</span>
+                    <div class="details">
+                        <span class="label">Profesora</span>
+                        <span class="value">Dra. Luzbeth Karin Navarrete Leal</span>
+                    </div>
+                </div>
+            </div>
+            <p class="subtitle gsap-info">Desarrollo de los ejercicios propuestos (EP-01 al EP-05)</p>
+            <div class="scroll-indicator gsap-scroll">↓ Desplázate para ver los ejercicios ↓</div>
+        </div>
+    </header>
+
+    <main class="exercises-container">
+        <!-- Ejercicio 1 -->
+        <section class="exercise-section" id="ep01">
+            <div class="glass-card">
+                <h2><span class="badge">EP-01</span> Garra Paralela - Selección</h2>
+                <p class="description">Se requiere una garra paralela para manipular botellas de vidrio de 0.5 kg. Aceleración máxima del brazo 3 m/s², presión 5.5 bar, FS = 2.0 y η = 0.82.</p>
+                <div class="calc-panel">
+                    <button class="calc-btn" onclick="calcEP01()">Calcular Resultados</button>
+                    <div id="res-ep01" class="results-box hidden">
+                        <div class="res-item"><strong>Fuerza Mínima:</strong> <span id="ep01-f"></span> N</div>
+                        <div class="res-item"><strong>Área Mínima:</strong> <span id="ep01-a"></span> mm²</div>
+                        <div class="res-item"><strong>Diámetro Mínimo:</strong> <span id="ep01-d"></span> mm</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ejercicio 2 -->
+        <section class="exercise-section" id="ep02">
+            <div class="glass-card">
+                <h2><span class="badge">EP-02</span> Garra Angular - Verificación</h2>
+                <p class="description">Una garra angular existente tiene pistón Ø 25 mm, trabaja a 4 bar, η = 0.78 y K_brazo = 0.65. Tarea: sujetar piezas de 2 kg con aceleración de 5 m/s². Determine si es apta con FS = 2.0.</p>
+                <div class="calc-panel">
+                    <button class="calc-btn" onclick="calcEP02()">Verificar Garra</button>
+                    <div id="res-ep02" class="results-box hidden">
+                        <div class="res-item"><strong>Fuerza Requerida:</strong> <span id="ep02-freq"></span> N</div>
+                        <div class="res-item"><strong>Fuerza Disponible:</strong> <span id="ep02-fdisp"></span> N</div>
+                        <div class="res-item" id="ep02-veredicto"></div>
+                        <div class="res-item"><strong>Presión Mínima Sugerida:</strong> <span id="ep02-pmin"></span> bar</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ejercicio 3 -->
+        <section class="exercise-section" id="ep03">
+            <div class="glass-card">
+                <h2><span class="badge">EP-03</span> Mesa XY - Selección de Cilindros</h2>
+                <p class="description">Diseñar una mesa XY para módulo de 8 kg. Eje X (carrera 400 mm, a = 1.5 m/s²), Eje Y (carrera 200 mm, a = 1.5 m/s²). Presión: 6 bar, η = 0.90, FS = 2.0.</p>
+                <div class="calc-panel">
+                    <button class="calc-btn" onclick="calcEP03()">Calcular Diámetros</button>
+                    <div id="res-ep03" class="results-box hidden">
+                        <div class="res-item"><strong>Fuerza Requerida (X e Y):</strong> <span id="ep03-f"></span> N</div>
+                        <div class="res-item"><strong>Diámetro Mínimo (X e Y):</strong> <span id="ep03-d"></span> mm</div>
+                        <div class="res-item"><strong>Fuerza Real (con D = 10mm):</strong> <span id="ep03-freal"></span> N</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ejercicio 4 -->
+        <section class="exercise-section" id="ep04">
+            <div class="glass-card">
+                <h2><span class="badge">EP-04</span> Mesa XY - Tiempo de Ciclo</h2>
+                <p class="description">Mesa XY del EP-03 regulada a: X = 20 L/min, Y = 12 L/min. Diámetros D_X = 50 mm, D_Y = 40 mm.</p>
+                <div class="calc-panel">
+                    <button class="calc-btn" onclick="calcEP04()">Calcular Ciclo</button>
+                    <div id="res-ep04" class="results-box hidden">
+                        <div class="res-item"><strong>Velocidad Eje X:</strong> <span id="ep04-vx"></span> m/s (Tiempo: <span id="ep04-tx"></span> s)</div>
+                        <div class="res-item"><strong>Velocidad Eje Y:</strong> <span id="ep04-vy"></span> m/s (Tiempo: <span id="ep04-ty"></span> s)</div>
+                        <div class="res-item highlight"><strong>Tiempo Ciclo Total:</strong> <span id="ep04-ttotal"></span> s</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ejercicio 5 -->
+        <section class="exercise-section" id="ep05">
+            <div class="glass-card">
+                <h2><span class="badge">EP-05</span> Diseño de Sistema Completo</h2>
+                <p class="description">Sistema neumático propuesto para célula pick & place.</p>
+                <div class="results-box text-left mt-4">
+                    <ul class="lista-componentes">
+                        <li><strong>Unidad FRL:</strong> G1/4", presión máx 10 bar, filtrado 40 µm.</li>
+                        <li><strong>Garra Paralela:</strong> Doble efecto, fuerza mín > 60N, para piezas de 1.5kg.</li>
+                        <li><strong>Cilindros Mesa XY:</strong> Sin vástago o de doble efecto con guías. X: D=25mm, C=250mm. Y: D=25mm, C=150mm.</li>
+                        <li><strong>Válvulas Distribuidoras:</strong> 3 x Electroválvulas 5/2 biestables (para X, Y y Garra).</li>
+                        <li><strong>Reguladores de Caudal:</strong> 6 x reguladores unidireccionales para control de velocidad.</li>
+                        <li><strong>Sensores:</strong> 6 x sensores magnéticos (finales de carrera) + sensor de presión.</li>
+                        <li><strong>Controlador:</strong> PLC Compacto (ej. S7-1200) con mín. 8 entradas y 6 salidas a relé/transistor.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Diseñado con HTML, CSS y JS Vainilla para Github Pages. Animaciones por GSAP.</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>
