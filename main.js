@@ -208,6 +208,12 @@ function simularEP01() {
     if (animEP01.state !== 'idle') return;
     animEP01.state = 'closing';
     animEP01.statusText = 'CERRANDO GARRAS...';
+
+    const btn = document.getElementById('btn-ep01');
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Simulando...';
+    }
     
     gsap.to(animEP01, {
         fingersX: 20, 
@@ -238,6 +244,10 @@ function simularEP01() {
                             onComplete: () => {
                                 animEP01.state = 'idle';
                                 animEP01.statusText = 'LISTO';
+                                if (btn) {
+                                    btn.disabled = false;
+                                    btn.textContent = 'Simular Agarre';
+                                }
                                 drawEP01();
                             }
                         });
@@ -401,6 +411,12 @@ function simularEP02() {
     animEP02.state = 'closing';
     animEP02.statusText = 'SUJETANDO Y CALCULANDO...';
 
+    const btn = document.getElementById('btn-ep02');
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Verificando...';
+    }
+
     const m = parseFloat(document.getElementById('slide-m2').value);
     const a = parseFloat(document.getElementById('slide-a2').value);
     const P = parseFloat(document.getElementById('slide-p2').value);
@@ -469,6 +485,11 @@ function resetEP02() {
         onComplete: () => {
             animEP02.state = 'idle';
             animEP02.statusText = 'LISTO';
+            const btn = document.getElementById('btn-ep02');
+            if (btn) {
+                btn.disabled = false;
+                btn.textContent = 'Verificar y Simular';
+            }
             drawEP02();
         }
     });
@@ -644,6 +665,12 @@ function simularEP03() {
     animEP03.state = 'moving';
     animEP03.statusText = 'DESPLAZANDO CABEZAL...';
 
+    const btn = document.getElementById('btn-ep03');
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Moviendo...';
+    }
+
     const targetX = 50 + Math.random() * 260;
     const targetY = 55 + Math.random() * 90;
 
@@ -667,6 +694,10 @@ function simularEP03() {
                     animEP03.state = 'idle';
                     animEP03.statusText = 'POSICIÓN ALCANZADA (LISTO)';
                     sparks = [];
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.textContent = 'Mover Mesa XY';
+                    }
                     drawEP03();
                 }
             }, 50);
@@ -799,6 +830,12 @@ function drawEP04() {
 function simularEP04() {
     if (animEP04.step !== 0) return;
 
+    const btn = document.getElementById('btn-ep04');
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Ciclo en Curso...';
+    }
+
     // Calcular tiempos físicos basados en caudales
     const qx = parseFloat(document.getElementById('slide-qx4').value) / 60000;
     const Dx = 50 / 1000;
@@ -834,6 +871,10 @@ function simularEP04() {
             animEP04.step = 0;
             animEP04.stateText = 'CICLO TERMINADO (LISTO)';
             animEP04.elapsedSecs = totalSeconds;
+            if (btn) {
+                btn.disabled = false;
+                btn.textContent = 'Iniciar Ciclo Secuencial';
+            }
             drawEP04();
         }
     });

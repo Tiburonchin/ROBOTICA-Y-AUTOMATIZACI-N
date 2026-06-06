@@ -193,6 +193,7 @@ h1, h2, h3, h4, .nav-logo {
 .btn-primary {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.8rem;
     background-color: var(--primary-green);
     color: var(--text-dark);
@@ -200,15 +201,22 @@ h1, h2, h3, h4, .nav-logo {
     border-radius: 2rem;
     text-decoration: none;
     font-weight: 600;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: all 0.3s ease;
     box-shadow: 0 10px 20px rgba(139, 92, 246, 0.25);
     border: none;
     cursor: pointer;
 }
 
-.btn-primary:hover {
+.btn-primary:hover:not(:disabled) {
     background-color: #7c3aed;
     transform: translateY(-2px);
+}
+
+.btn-primary:disabled {
+    background-color: #374151;
+    color: #6b7280;
+    box-shadow: none;
+    cursor: not-allowed;
 }
 
 .btn-primary svg {
@@ -594,6 +602,10 @@ spline-viewer {
     display: flex;
     flex-direction: column;
     box-shadow: var(--card-shadow);
+}
+
+.canvas-container button {
+    margin-top: 1.8rem !important; /* Más separación entre el botón de simulación y el canvas */
 }
 
 .canvas-title {
