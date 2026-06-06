@@ -29,10 +29,10 @@ if (slides.length > 0) {
         slides[currentSlide].classList.remove('active');
         currentSlide = (currentSlide + 1) % slides.length;
         slides[currentSlide].classList.add('active');
-    }, 4000); // Cambia cada 4 segundos
+    }, 4000);
 }
 
-// Parallax interactivo y 3D en el Hero al mover el mouse (aplicado al contenedor del slideshow)
+// Parallax interactivo 3D en el Hero
 const heroSection = document.querySelector('.hero-section');
 const slideshowContainer = document.querySelector('.hero-slideshow-container');
 
@@ -40,14 +40,11 @@ if (heroSection && slideshowContainer) {
     heroSection.addEventListener('mousemove', (e) => {
         const { clientX, clientY } = e;
         const { width, height, left, top } = heroSection.getBoundingClientRect();
-        
-        // Coordenadas relativas de -1 a 1
         const x = (clientX - left - width / 2) / (width / 2);
         const y = (clientY - top - height / 2) / (height / 2);
 
-        // Rotar contenedor en 3D
         gsap.to(slideshowContainer, {
-            rotateY: x * 15, // max 15deg
+            rotateY: x * 15,
             rotateX: -y * 15,
             x: x * 15,
             y: y * 15,
@@ -56,7 +53,6 @@ if (heroSection && slideshowContainer) {
         });
     });
 
-    // Resetear al salir
     heroSection.addEventListener('mouseleave', () => {
         gsap.to(slideshowContainer, {
             rotateX: 0,
@@ -92,7 +88,6 @@ window.addEventListener('scroll', () => {
     let current = '';
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
         if (pageYOffset >= (sectionTop - 150)) {
             current = section.getAttribute('id');
         }
@@ -111,53 +106,151 @@ window.addEventListener('scroll', () => {
 // ==========================================
 let chart1, chart2, chart3, chart4;
 
+// Función común para dibujar cuadrículas técnicas en los Canvas
+function drawTechnicalGrid(ctx, w, h) {
+    ctx.strokeStyle = 'rgba(45, 74, 67, 0.05)';
+    ctx.lineWidth = 1;
+    for (let x = 20; x < w; x += 20) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h);
+        ctx.stroke();
+    }
+    for (let y = 20; y < h; y += 20) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+    }
+}
+
 // ==========================================
-// EJERCICIO EP-01
+// EJERCICIO EP-01: PINZA PARALELA DETALLADA
 // ==========================================
 let canvas1 = document.getElementById('canvas-ep01');
 let ctx1 = canvas1.getContext('2d');
-let animEP01 = { fingersX: 40, bottleY: 120, state: 'idle' };
+let animEP01 = { fingersX: 30, bottleY: 130, state: 'idle', statusText: 'LISTO' };
 
 function drawEP01() {
-    ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
-    ctx1.fillStyle = '#2d4a43';
-    ctx1.fillRect(100, 20, 200, 20);
-    ctx1.fillStyle = '#8da89b';
-    ctx1.fillRect(100 + animEP01.fingersX, 40, 15, 60);
-    ctx1.fillRect(285 - animEP01.fingersX, 40, 15, 60);
+    const w = canvas1.width;
+    const h = canvas1.height;
+    ctx1.clearRect(0, 0, w, h);
+    
+    // Cuadrícula
+    drawTechnicalGrid(ctx1, w, h);
+
+    // Soporte del actuador (metalizado)
+    ctx1.fillStyle = '#b0b7bd';
+    ctx1.fillRect(120, 15, 160, 25);
+    ctx1.fillStyle = '#7a8288';
+    ctx1.fillRect(130, 40, 140, 15);
+
+    // Guias deslizantes y dedos de la garra
+    const xLeft = 140 + animEP01.fingersX;
+    const xRight = 245 - animEP01.fingersX;
+    
+    // Dedos
+    ctx1.fillStyle = '#5a6b66';
+    ctx1.fillRect(xLeft, 55, 15, 60); // Izquierdo
+    ctx1.fillRect(xRight, 55, 15, 60); // Derecho
+    
+    // Almohadillas de goma antideslizante (goma oscura)
+    ctx1.fillStyle = '#1e2a27';
+    ctx1.fillRect(xLeft + 15, 70, 4, 35);
+    ctx1.fillRect(xRight - 4, 70, 4, 35);
+
+    // Botella de vidrio realista (verde salvia translúcida)
+    ctx1.save();
+    ctx1.fillStyle = 'rgba(141, 168, 155, 0.85)';
+    ctx1.strokeStyle = '#2d4a43';
+    ctx1.lineWidth = 2;
+    // Cuerpo
+    ctx1.fillRect(175, animEP01.bottleY, 50, 80);
+    ctx1.strokeRect(175, animEP01.bottleY, 50, 80);
+    // Cuello
+    ctx1.fillRect(188, animEP01.bottleY - 25, 24, 25);
+    ctx1.strokeRect(188, animEP01.bottleY - 25, 24, 25);
+    // Tapón de corcho
     ctx1.fillStyle = '#d4a373';
-    ctx1.fillRect(175, animEP01.bottleY, 50, 90);
-    ctx1.fillRect(190, animEP01.bottleY - 30, 20, 30);
+    ctx1.fillRect(191, animEP01.bottleY - 33, 18, 10);
+    ctx1.restore();
+
+    // Dibujar vectores de fuerza cuando agarre
+    if (animEP01.state === 'holding' || animEP01.state === 'lifting') {
+        const fReq = parseFloat(document.getElementById('res-f1').textContent) || 12.81;
+        ctx1.strokeStyle = '#c94a3a';
+        ctx1.lineWidth = 3;
+        // Flecha izquierda
+        ctx1.beginPath();
+        ctx1.moveTo(xLeft + 20, 87);
+        ctx1.lineTo(xLeft + 35, 87);
+        ctx1.lineTo(xLeft + 30, 82);
+        ctx1.moveTo(xLeft + 35, 87);
+        ctx1.lineTo(xLeft + 30, 92);
+        ctx1.stroke();
+        // Flecha derecha
+        ctx1.beginPath();
+        ctx1.moveTo(xRight - 5, 87);
+        ctx1.lineTo(xRight - 20, 87);
+        ctx1.lineTo(xRight - 15, 82);
+        ctx1.moveTo(xRight - 20, 87);
+        ctx1.lineTo(xRight - 15, 92);
+        ctx1.stroke();
+
+        ctx1.fillStyle = '#c94a3a';
+        ctx1.font = 'bold 10px Inter';
+        ctx1.fillText(`Fc = ${fReq.toFixed(1)} N`, 173, 80);
+    }
+
+    // Telemetría overlay
+    ctx1.fillStyle = 'rgba(45, 74, 67, 0.85)';
+    ctx1.fillRect(10, 195, 380, 45);
+    ctx1.fillStyle = '#ffffff';
+    ctx1.font = '11px Courier New';
+    ctx1.fillText(`ESTADO: ${animEP01.statusText}`, 20, 212);
+    ctx1.fillText(`POS_X_GARRA: ${animEP01.fingersX.toFixed(1)}mm | BOTELLA_Y: ${animEP01.bottleY.toFixed(1)}px`, 20, 228);
 }
 
 function simularEP01() {
     if (animEP01.state !== 'idle') return;
     animEP01.state = 'closing';
+    animEP01.statusText = 'CERRANDO GARRAS...';
     
     gsap.to(animEP01, {
-        fingersX: 65, 
+        fingersX: 20, 
         duration: 0.8,
         onUpdate: drawEP01,
         onComplete: () => {
-            animEP01.state = 'lifting';
-            gsap.to(animEP01, {
-                bottleY: 70,
-                duration: 1.2,
-                yoyo: true,
-                repeat: 1,
-                onUpdate: drawEP01,
-                onComplete: () => {
-                    gsap.to(animEP01, {
-                        fingersX: 40,
-                        bottleY: 120,
-                        duration: 0.5,
-                        onUpdate: drawEP01,
-                        onComplete: () => {
-                            animEP01.state = 'idle';
-                        }
-                    });
-                }
-            });
+            animEP01.state = 'holding';
+            animEP01.statusText = 'SUJECIÓN ASEGURADA (HOLD)';
+            drawEP01();
+            
+            setTimeout(() => {
+                animEP01.state = 'lifting';
+                animEP01.statusText = 'ELEVANDO BOTELLA (Z+)';
+                gsap.to(animEP01, {
+                    bottleY: 70,
+                    duration: 1.2,
+                    yoyo: true,
+                    repeat: 1,
+                    onUpdate: drawEP01,
+                    onComplete: () => {
+                        animEP01.state = 'opening';
+                        animEP01.statusText = 'ABRIENDO GARRAS...';
+                        gsap.to(animEP01, {
+                            fingersX: 30,
+                            bottleY: 130,
+                            duration: 0.5,
+                            onUpdate: drawEP01,
+                            onComplete: () => {
+                                animEP01.state = 'idle';
+                                animEP01.statusText = 'LISTO';
+                                drawEP01();
+                            }
+                        });
+                    }
+                });
+            }, 600);
         }
     });
 }
@@ -232,38 +325,85 @@ function updateChart01(currentD, currentP) {
 }
 
 // ==========================================
-// EJERCICIO EP-02
+// EJERCICIO EP-02: PINZA ANGULAR DINÁMICA
 // ==========================================
 let canvas2 = document.getElementById('canvas-ep02');
 let ctx2 = canvas2.getContext('2d');
-let animEP02 = { angle: 0.3, pieceY: 130, state: 'idle' };
+let animEP02 = { angle: 0.35, pieceY: 130, state: 'idle', statusText: 'LISTO' };
 
 function drawEP02() {
-    ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
-    ctx2.fillStyle = '#2d4a43';
-    ctx2.fillRect(175, 20, 50, 60);
+    const w = canvas2.width;
+    const h = canvas2.height;
+    ctx2.clearRect(0, 0, w, h);
+    
+    drawTechnicalGrid(ctx2, w, h);
 
+    // Cuerpo neumático de la garra angular (plateado)
+    ctx2.fillStyle = '#7a8288';
+    ctx2.fillRect(165, 20, 70, 50);
+    ctx2.fillStyle = '#b0b7bd';
+    ctx2.fillRect(175, 70, 50, 15);
+
+    // Ejes pivots
+    ctx2.fillStyle = '#1e2a27';
+    ctx2.beginPath();
+    ctx2.arc(185, 80, 4, 0, Math.PI * 2);
+    ctx2.arc(215, 80, 4, 0, Math.PI * 2);
+    ctx2.fill();
+
+    // Brazo garras izquierdo y derecho
     ctx2.save();
     ctx2.translate(185, 80);
     ctx2.rotate(-animEP02.angle);
-    ctx2.fillStyle = '#8da89b';
+    ctx2.fillStyle = '#5a6b66';
     ctx2.fillRect(-10, 0, 15, 60);
+    ctx2.fillStyle = '#2d4a43';
+    ctx2.fillRect(5, 45, 12, 15); // Almohadilla angular
     ctx2.restore();
 
     ctx2.save();
     ctx2.translate(215, 80);
     ctx2.rotate(animEP02.angle);
-    ctx2.fillStyle = '#8da89b';
+    ctx2.fillStyle = '#5a6b66';
     ctx2.fillRect(-5, 0, 15, 60);
+    ctx2.fillStyle = '#2d4a43';
+    ctx2.fillRect(-17, 45, 12, 15); // Almohadilla angular
     ctx2.restore();
 
+    // Pieza de masa (caja metálica)
     ctx2.fillStyle = '#d4a373';
     ctx2.fillRect(180, animEP02.pieceY, 40, 40);
+    ctx2.strokeStyle = '#8c5827';
+    ctx2.strokeRect(180, animEP02.pieceY, 40, 40);
+
+    // Anuncios de Apto / Fallo
+    if (animEP02.state === 'fail-dropping') {
+        ctx2.fillStyle = 'rgba(201, 74, 58, 0.1)';
+        ctx2.fillRect(0, 0, w, h);
+        ctx2.fillStyle = '#c94a3a';
+        ctx2.font = 'bold 12px Inter';
+        ctx2.fillText('⚠️ DESLIZAMIENTO DETECTADO', 120, 120);
+    } else if (animEP02.state === 'holding-ok') {
+        ctx2.fillStyle = 'rgba(45, 74, 67, 0.1)';
+        ctx2.fillRect(0, 0, w, h);
+        ctx2.fillStyle = '#2d4a43';
+        ctx2.font = 'bold 12px Inter';
+        ctx2.fillText('✅ AGARRE SEGURO', 150, 120);
+    }
+
+    // Telemetría overlay
+    ctx2.fillStyle = 'rgba(45, 74, 67, 0.85)';
+    ctx2.fillRect(10, 195, 380, 45);
+    ctx2.fillStyle = '#ffffff';
+    ctx2.font = '11px Courier New';
+    ctx2.fillText(`ESTADO: ${animEP02.statusText}`, 20, 212);
+    ctx2.fillText(`ANGULO_GARRA: ${animEP02.angle.toFixed(2)}rad | PIEZA_Y: ${animEP02.pieceY.toFixed(1)}px`, 20, 228);
 }
 
 function simularEP02() {
     if (animEP02.state !== 'idle') return;
     animEP02.state = 'closing';
+    animEP02.statusText = 'SUJETANDO Y CALCULANDO...';
 
     const m = parseFloat(document.getElementById('slide-m2').value);
     const a = parseFloat(document.getElementById('slide-a2').value);
@@ -281,14 +421,18 @@ function simularEP02() {
     const esApto = F_disp >= F_req;
 
     gsap.to(animEP02, {
-        angle: 0.05,
-        duration: 0.6,
+        angle: 0.08,
+        duration: 0.8,
         onUpdate: drawEP02,
         onComplete: () => {
             if (esApto) {
-                animEP02.state = 'lifting';
+                animEP02.state = 'holding-ok';
+                animEP02.statusText = 'SISTEMA SEGURO (F_disp > F_req)';
+                drawEP02();
+                
+                // Animación de levantar
                 gsap.to(animEP02, {
-                    pieceY: 80,
+                    pieceY: 90,
                     duration: 1,
                     yoyo: true,
                     repeat: 1,
@@ -296,19 +440,25 @@ function simularEP02() {
                     onComplete: resetEP02
                 });
             } else {
-                animEP02.state = 'dropping';
-                gsap.to(animEP02, {
-                    angle: 0.3,
-                    duration: 0.3,
-                    onUpdate: drawEP02
-                });
-                gsap.to(animEP02, {
-                    pieceY: 210,
-                    duration: 0.8,
-                    ease: "bounce.out",
-                    onUpdate: drawEP02,
-                    onComplete: resetEP02
-                });
+                animEP02.state = 'fail-dropping';
+                animEP02.statusText = 'FALLO: FUERZA INSUFICIENTE!';
+                drawEP02();
+                
+                // Simulación de deslizamiento y caída por gravedad
+                setTimeout(() => {
+                    gsap.to(animEP02, {
+                        angle: 0.35,
+                        duration: 0.3,
+                        onUpdate: drawEP02
+                    });
+                    gsap.to(animEP02, {
+                        pieceY: 210,
+                        duration: 0.8,
+                        ease: "bounce.out",
+                        onUpdate: drawEP02,
+                        onComplete: resetEP02
+                    });
+                }, 500);
             }
         }
     });
@@ -316,11 +466,15 @@ function simularEP02() {
 
 function resetEP02() {
     gsap.to(animEP02, {
-        angle: 0.3,
+        angle: 0.35,
         pieceY: 130,
         duration: 0.5,
         onUpdate: drawEP02,
-        onComplete: () => { animEP02.state = 'idle'; }
+        onComplete: () => {
+            animEP02.state = 'idle';
+            animEP02.statusText = 'LISTO';
+            drawEP02();
+        }
     });
 }
 
@@ -407,35 +561,91 @@ function updateChart02(F_req) {
 }
 
 // ==========================================
-// EJERCICIO EP-03
+// EJERCICIO EP-03: MESA XY DE SOLDADURA CON CHISPAS
 // ==========================================
 let canvas3 = document.getElementById('canvas-ep03');
 let ctx3 = canvas3.getContext('2d');
-let animEP03 = { gantryX: 80, carriageY: 80, state: 'idle' };
+let animEP03 = { gantryX: 80, carriageY: 80, state: 'idle', statusText: 'LISTO' };
+let sparks = [];
 
 function drawEP03() {
-    ctx3.clearRect(0, 0, canvas3.width, canvas3.height);
+    const w = canvas3.width;
+    const h = canvas3.height;
+    ctx3.clearRect(0, 0, w, h);
     
-    ctx3.strokeStyle = '#f0ebe1';
-    ctx3.lineWidth = 6;
+    drawTechnicalGrid(ctx3, w, h);
+
+    // Rieles de guía lineales X (arriba y abajo)
+    ctx3.fillStyle = '#b0b7bd';
+    ctx3.fillRect(30, 45, 340, 8);
+    ctx3.fillRect(30, 185, 340, 8);
+
+    // Gantry de aluminio que corre en X
+    ctx3.fillStyle = '#5a6b66';
+    ctx3.fillRect(animEP03.gantryX, 35, 24, 160);
+    ctx3.fillStyle = '#2d4a43';
+    ctx3.fillRect(animEP03.gantryX + 2, 40, 20, 15);
+    ctx3.fillRect(animEP03.gantryX + 2, 175, 20, 15);
+
+    // Carro de deslizamiento Y que corre en el gantry
+    ctx3.fillStyle = '#d4a373';
+    ctx3.fillRect(animEP03.gantryX - 6, animEP03.carriageY, 36, 36);
+    ctx3.strokeStyle = '#8c5827';
+    ctx3.strokeRect(animEP03.gantryX - 6, animEP03.carriageY, 36, 36);
+
+    // Cabezal de soldadura (antorcha)
+    ctx3.fillStyle = '#1e2a27';
+    ctx3.fillRect(animEP03.gantryX + 8, animEP03.carriageY + 14, 18, 8);
+    ctx3.fillStyle = '#c94a3a';
     ctx3.beginPath();
-    ctx3.moveTo(40, 50);
-    ctx3.lineTo(360, 50);
+    ctx3.moveTo(animEP03.gantryX + 26, animEP03.carriageY + 18);
+    ctx3.lineTo(animEP03.gantryX + 34, animEP03.carriageY + 18);
     ctx3.stroke();
 
-    ctx3.fillStyle = '#2d4a43';
-    ctx3.fillRect(animEP03.gantryX, 35, 20, 160);
+    // Dibujar y actualizar chispas de soldadura si está soldando
+    if (animEP03.state === 'soldering') {
+        sparks.forEach((p, index) => {
+            ctx3.fillStyle = `rgba(212, 163, 115, ${p.alpha})`;
+            ctx3.beginPath();
+            ctx3.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx3.fill();
 
-    ctx3.fillStyle = '#d4a373';
-    ctx3.fillRect(animEP03.gantryX - 5, animEP03.carriageY, 30, 30);
+            // Mover chispas
+            p.x += p.vx;
+            p.y += p.vy;
+            p.alpha -= 0.04;
+            if (p.alpha <= 0) sparks.splice(index, 1);
+        });
+
+        // Emitir más chispas en el punto de la punta del soldador
+        for (let i = 0; i < 3; i++) {
+            sparks.push({
+                x: animEP03.gantryX + 34,
+                y: animEP03.carriageY + 18,
+                vx: (Math.random() - 0.2) * 4,
+                vy: (Math.random() - 0.5) * 4,
+                size: Math.random() * 3 + 1,
+                alpha: 1
+            });
+        }
+    }
+
+    // Telemetría overlay
+    ctx3.fillStyle = 'rgba(45, 74, 67, 0.85)';
+    ctx3.fillRect(10, 195, 380, 45);
+    ctx3.fillStyle = '#ffffff';
+    ctx3.font = '11px Courier New';
+    ctx3.fillText(`ESTADO: ${animEP03.statusText}`, 20, 212);
+    ctx3.fillText(`COORDENADA_X: ${(animEP03.gantryX * 1.25).toFixed(1)}mm | COORDENADA_Y: ${(animEP03.carriageY * 0.8).toFixed(1)}mm`, 20, 228);
 }
 
 function simularEP03() {
     if (animEP03.state !== 'idle') return;
     animEP03.state = 'moving';
+    animEP03.statusText = 'DESPLAZANDO CABEZAL...';
 
-    const targetX = 40 + Math.random() * 280;
-    const targetY = 50 + Math.random() * 100;
+    const targetX = 50 + Math.random() * 260;
+    const targetY = 55 + Math.random() * 90;
 
     gsap.to(animEP03, {
         gantryX: targetX,
@@ -443,7 +653,24 @@ function simularEP03() {
         duration: 1.5,
         ease: "power2.inOut",
         onUpdate: drawEP03,
-        onComplete: () => { animEP03.state = 'idle'; }
+        onComplete: () => {
+            animEP03.state = 'soldering';
+            animEP03.statusText = 'SOLDANDO COMPONENTE (WELDER ACTIVE)';
+            
+            // Loop para mantener pintadas las chispas por 1 segundo
+            let elapsed = 0;
+            const weldInterval = setInterval(() => {
+                drawEP03();
+                elapsed += 50;
+                if (elapsed >= 1000) {
+                    clearInterval(weldInterval);
+                    animEP03.state = 'idle';
+                    animEP03.statusText = 'POSICIÓN ALCANZADA (LISTO)';
+                    sparks = [];
+                    drawEP03();
+                }
+            }, 50);
+        }
     });
 }
 
@@ -501,48 +728,140 @@ function updateChart03(m) {
 }
 
 // ==========================================
-// EJERCICIO EP-04
+// EJERCICIO EP-04: SECUENCIA DE CILINDROS FÍSICOS
 // ==========================================
 let canvas4 = document.getElementById('canvas-ep04');
 let ctx4 = canvas4.getContext('2d');
-let animEP04 = { x: 50, y: 180, step: 0 };
+let animEP04 = { rodX: 0, rodY: 0, stateText: 'LISTO', elapsedSecs: 0.0, step: 0 };
 
 function drawEP04() {
-    ctx4.clearRect(0, 0, canvas4.width, canvas4.height);
+    const w = canvas4.width;
+    const h = canvas4.height;
+    ctx4.clearRect(0, 0, w, h);
+    
+    drawTechnicalGrid(ctx4, w, h);
 
-    ctx4.strokeStyle = '#f0ebe1';
-    ctx4.lineWidth = 2;
-    ctx4.setLineDash([5, 5]);
-    ctx4.strokeRect(50, 50, 300, 130);
-    ctx4.setLineDash([]);
+    // CILINDRO X (Horizontal en el plano superior)
+    ctx4.fillStyle = '#7a8288';
+    ctx4.fillRect(40, 50, 120, 30); // Cuerpo Cilindro X
+    ctx4.fillStyle = '#b0b7bd';
+    ctx4.fillRect(160, 60, animEP04.rodX, 10); // Vástago X
 
-    ctx4.fillStyle = '#2d4a43';
-    ctx4.beginPath();
-    ctx4.arc(animEP04.x, animEP04.y, 10, 0, Math.PI * 2);
-    ctx4.fill();
+    // Cabezal guía de X
+    ctx4.fillStyle = '#d4a373';
+    ctx4.fillRect(160 + animEP04.rodX, 50, 15, 30);
+
+    // CILINDRO Y (Vertical acoplado al final del recorrido de X)
+    ctx4.fillStyle = '#7a8288';
+    ctx4.fillRect(260, 50, 30, 80); // Cuerpo Cilindro Y
+    ctx4.fillStyle = '#b0b7bd';
+    ctx4.fillRect(270, 130, 10, animEP04.rodY); // Vástago Y
+
+    // Herramienta Y
+    ctx4.fillStyle = '#d4a373';
+    ctx4.fillRect(260, 130 + animEP04.rodY, 30, 15);
+
+    // Luces de los sensores S1, S2, S3, S4
+    // S1 (Inicio X)
+    ctx4.fillStyle = (animEP04.rodX < 5) ? '#55ff55' : '#882222';
+    ctx4.beginPath(); ctx4.arc(45, 40, 4, 0, Math.PI*2); ctx4.fill();
+    // S2 (Fin X)
+    ctx4.fillStyle = (animEP04.rodX > 95) ? '#55ff55' : '#882222';
+    ctx4.beginPath(); ctx4.arc(155, 40, 4, 0, Math.PI*2); ctx4.fill();
+    // S3 (Inicio Y)
+    ctx4.fillStyle = (animEP04.rodY < 5) ? '#55ff55' : '#882222';
+    ctx4.beginPath(); ctx4.arc(250, 60, 4, 0, Math.PI*2); ctx4.fill();
+    // S4 (Fin Y)
+    ctx4.fillStyle = (animEP04.rodY > 45) ? '#55ff55' : '#882222';
+    ctx4.beginPath(); ctx4.arc(250, 120, 4, 0, Math.PI*2); ctx4.fill();
+
+    // Textos sensores
+    ctx4.fillStyle = '#1e2a27';
+    ctx4.font = '9px Inter';
+    ctx4.fillText('S1', 41, 32);
+    ctx4.fillText('S2', 151, 32);
+    ctx4.fillText('S3', 234, 63);
+    ctx4.fillText('S4', 234, 123);
+
+    // Telemetría overlay
+    ctx4.fillStyle = 'rgba(45, 74, 67, 0.85)';
+    ctx4.fillRect(10, 195, 380, 45);
+    ctx4.fillStyle = '#ffffff';
+    ctx4.font = '11px Courier New';
+    ctx4.fillText(`ETAPA: ${animEP04.stateText}`, 20, 212);
+    ctx4.fillText(`TIEMPO TOTAL: ${animEP04.elapsedSecs.toFixed(2)}s | ROD_X: ${animEP04.rodX.toFixed(1)} | ROD_Y: ${animEP04.rodY.toFixed(1)}`, 20, 228);
 }
 
 function simularEP04() {
-    const Qx = parseFloat(document.getElementById('slide-qx4').value) / 60000;
+    if (animEP04.step !== 0) return;
+
+    // Calcular tiempos físicos basados en caudales
+    const qx = parseFloat(document.getElementById('slide-qx4').value) / 60000;
     const Dx = 50 / 1000;
     const Ax = Math.PI * Math.pow(Dx, 2) / 4;
-    const vx = Qx / Ax;
-    const tx = 0.4 / vx;
+    const vx = qx / Ax;
+    const tx = 0.4 / vx; // Tiempo desplazamiento X
 
-    const Qy = parseFloat(document.getElementById('slide-qy4').value) / 60000;
+    const qy = parseFloat(document.getElementById('slide-qy4').value) / 60000;
     const Dy = 40 / 1000;
     const Ay = Math.PI * Math.pow(Dy, 2) / 4;
-    const vy = Qy / Ay;
-    const ty = 0.2 / vy;
+    const vy = qy / Ay;
+    const ty = 0.2 / vy; // Tiempo desplazamiento Y
 
-    const tScale = 0.5;
+    const totalSeconds = (tx * 2) + (ty * 2);
 
-    const tl = gsap.timeline({ onUpdate: drawEP04 });
-    tl.to(animEP04, { x: 50, y: 180, duration: 0 });
-    tl.to(animEP04, { x: 350, duration: tx * tScale, ease: "none" });
-    tl.to(animEP04, { y: 50, duration: ty * tScale, ease: "none" });
-    tl.to(animEP04, { y: 180, duration: ty * tScale, ease: "none" });
-    tl.to(animEP04, { x: 50, duration: tx * tScale, ease: "none" });
+    animEP04.step = 1;
+    animEP04.elapsedSecs = 0.0;
+    
+    // Iniciar temporizador
+    const startTime = Date.now();
+    const timerInterval = setInterval(() => {
+        if (animEP04.step === 0) {
+            clearInterval(timerInterval);
+            return;
+        }
+        animEP04.elapsedSecs = (Date.now() - startTime) / 1000;
+        drawEP04();
+    }, 50);
+
+    const tl = gsap.timeline({
+        onUpdate: drawEP04,
+        onComplete: () => {
+            animEP04.step = 0;
+            animEP04.stateText = 'CICLO TERMINADO (LISTO)';
+            animEP04.elapsedSecs = totalSeconds;
+            drawEP04();
+        }
+    });
+
+    // 1. X+
+    tl.to(animEP04, {
+        rodX: 100,
+        duration: tx,
+        ease: "power1.inOut",
+        onStart: () => { animEP04.stateText = '1. EJE X AVANCE (X+)'; }
+    });
+    // 2. Y+
+    tl.to(animEP04, {
+        rodY: 50,
+        duration: ty,
+        ease: "power1.inOut",
+        onStart: () => { animEP04.stateText = '2. EJE Y AVANCE (Y+)'; }
+    });
+    // 3. Y-
+    tl.to(animEP04, {
+        rodY: 0,
+        duration: ty,
+        ease: "power1.inOut",
+        onStart: () => { animEP04.stateText = '3. EJE Y RETROCESO (Y-)'; }
+    });
+    // 4. X-
+    tl.to(animEP04, {
+        rodX: 0,
+        duration: tx,
+        ease: "power1.inOut",
+        onStart: () => { animEP04.stateText = '4. EJE X RETROCESO (X-)'; }
+    });
 }
 
 function actualizarEP04() {
@@ -611,7 +930,7 @@ function updateChart04(qy) {
 }
 
 // ==========================================
-// EJERCICIO EP-05
+// EJERCICIO EP-05: DETALLES DASHBOARD
 // ==========================================
 const componentsData = {
     frl: {

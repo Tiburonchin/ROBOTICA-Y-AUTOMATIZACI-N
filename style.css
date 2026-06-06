@@ -259,6 +259,28 @@ h1, h2, h3, h4, .nav-logo {
     pointer-events: none;
 }
 
+/* Ilustraciones de Ejercicios */
+.exercise-illustration {
+    width: 100%;
+    height: 220px;
+    border-radius: 1.2rem;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--card-shadow);
+}
+
+.exercise-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.exercise-illustration:hover .exercise-img {
+    transform: scale(1.03);
+}
+
 /* Main Content */
 .main-content {
     max-width: 1200px;

@@ -92,6 +92,10 @@
                 <div class="exercise-theory">
                     <div class="card-subsection">
                         <h3><i data-lucide="help-circle"></i> Pregunta</h3>
+                        <!-- Ilustración Realista AI -->
+                        <div class="exercise-illustration">
+                            <img src="assets/parallel_gripper.png" alt="Ilustración Garra Paralela" class="exercise-img">
+                        </div>
                         <p class="theory-text">
                             Se requiere una garra paralela para manipular botellas de vidrio de <strong>0.5 kg</strong> en una línea de embotellado. La aceleración máxima del brazo robótico es <strong>3 m/s²</strong>. La presión disponible es <strong>5.5 bar</strong>. Con <strong>FS = 2.0</strong> y <strong>η = 0.82</strong>, calcule:
                         </p>
@@ -158,6 +162,25 @@
                         </div>
                     </div>
 
+                    <!-- Resultados Interactivos -->
+                    <div class="results-grid">
+                        <div class="result-card">
+                            <span class="res-title">Fuerza Mínima</span>
+                            <span class="res-val" id="res-f1">12.81</span>
+                            <span class="res-unit">N</span>
+                        </div>
+                        <div class="result-card">
+                            <span class="res-title">Área Embolo</span>
+                            <span class="res-val" id="res-a1">28.40</span>
+                            <span class="res-unit">mm²</span>
+                        </div>
+                        <div class="result-card highlight">
+                            <span class="res-title">Diámetro Mín.</span>
+                            <span class="res-val" id="res-d1">6.01</span>
+                            <span class="res-unit">mm</span>
+                        </div>
+                    </div>
+
                     <!-- Animación Canvas -->
                     <div class="canvas-container mt-4">
                         <span class="canvas-title"><i data-lucide="play-circle"></i> Animación del Agarre</span>
@@ -183,6 +206,10 @@
                 <div class="exercise-theory">
                     <div class="card-subsection">
                         <h3><i data-lucide="help-circle"></i> Pregunta</h3>
+                        <!-- Ilustración Realista AI -->
+                        <div class="exercise-illustration">
+                            <img src="assets/angular_gripper.png" alt="Ilustración Garra Angular" class="exercise-img">
+                        </div>
                         <p class="theory-text">
                             Una garra angular existente tiene pistón <strong>Ø 25 mm</strong>, trabaja a <strong>4 bar</strong>, <strong>η = 0.78</strong> y <strong>K_brazo = 0.65</strong>. Se le quiere asignar una tarea de sujetar piezas de <strong>2 kg</strong> con aceleración de robot <strong>5 m/s²</strong>. Determine si la garra es apta con <strong>FS = 2.0</strong>. Si no lo es, ¿qué presión mínima sería necesaria?
                         </p>
@@ -243,6 +270,25 @@
                         </div>
                     </div>
 
+                    <!-- Resultados Interactivos -->
+                    <div class="results-grid">
+                        <div class="result-card">
+                            <span class="res-title">Fuerza Requerida</span>
+                            <span class="res-val" id="res-freq2">59.24</span>
+                            <span class="res-unit">N</span>
+                        </div>
+                        <div class="result-card">
+                            <span class="res-title">Fuerza Disponible</span>
+                            <span class="res-val" id="res-fdisp2">99.55</span>
+                            <span class="res-unit">N</span>
+                        </div>
+                        <div class="result-card highlight" id="veredicto-card">
+                            <span class="res-title" id="res-apto2">APTA</span>
+                            <span class="res-val" style="font-size: 1.15rem; margin-top: 0.2rem;" id="res-pres2">Suficiente</span>
+                            <span class="res-unit">Veredicto</span>
+                        </div>
+                    </div>
+
                     <div class="canvas-container mt-4">
                         <span class="canvas-title"><i data-lucide="play-circle"></i> Animación Garra Angular</span>
                         <canvas id="canvas-ep02" width="400" height="250"></canvas>
@@ -265,6 +311,10 @@
                 <div class="exercise-theory">
                     <div class="card-subsection">
                         <h3><i data-lucide="help-circle"></i> Pregunta</h3>
+                        <!-- Ilustración Realista AI -->
+                        <div class="exercise-illustration">
+                            <img src="assets/xy_table.png" alt="Ilustración Mesa XY" class="exercise-img">
+                        </div>
                         <p class="theory-text">
                             Diseñar una mesa XY para posicionar un módulo de soldadura de <strong>8 kg</strong>. Eje X: carrera <strong>400 mm</strong>, aceleración <strong>1.5 m/s²</strong>. Eje Y: carrera <strong>200 mm</strong>, aceleración <strong>1.5 m/s²</strong>. Presión: <strong>6 bar</strong>, <strong>η = 0.90</strong>, <strong>FS = 2.0</strong>. Determine el diámetro del émbolo para cada eje y la fuerza real disponible.
                         </p>
@@ -320,6 +370,25 @@
                         </div>
                     </div>
 
+                    <!-- Resultados Interactivos -->
+                    <div class="results-grid">
+                        <div class="result-card">
+                            <span class="res-title">Fuerza Requerida</span>
+                            <span class="res-val" id="res-freq3">24.00</span>
+                            <span class="res-unit">N</span>
+                        </div>
+                        <div class="result-card">
+                            <span class="res-title">Diámetro Mín.</span>
+                            <span class="res-val" id="res-dmin3">7.52</span>
+                            <span class="res-unit">mm</span>
+                        </div>
+                        <div class="result-card highlight">
+                            <span class="res-title">Fuerza Real</span>
+                            <span class="res-val" id="res-freal3">42.41</span>
+                            <span class="res-unit">N (D=10mm)</span>
+                        </div>
+                    </div>
+
                     <div class="canvas-container mt-4">
                         <span class="canvas-title"><i data-lucide="play-circle"></i> Posicionador Mesa XY</span>
                         <canvas id="canvas-ep03" width="400" height="250"></canvas>
@@ -342,6 +411,10 @@
                 <div class="exercise-theory">
                     <div class="card-subsection">
                         <h3><i data-lucide="help-circle"></i> Pregunta</h3>
+                        <!-- Ilustración Realista AI -->
+                        <div class="exercise-illustration">
+                            <img src="assets/cylinder_sequence.png" alt="Ilustración Cilindros Neumáticos" class="exercise-img">
+                        </div>
                         <p class="theory-text">
                             Para la mesa XY del ejercicio EP-03, si se regulan los caudales a: eje X = <strong>20 L/min</strong>, eje Y = <strong>12 L/min</strong>, y los diámetros elegidos son <strong>D_X = 50 mm</strong>, <strong>D_Y = 40 mm</strong>. Calcule: (a) velocidades de cada eje, (b) tiempos de desplazamiento, (c) tiempo total de ciclo X+ → Y+ → Y- → X-.
                         </p>
@@ -399,6 +472,25 @@
                         <div class="slider-group">
                             <div class="slider-label"><span>Caudal Y (Q_Y):</span> <span id="val-qy4">12</span> L/min</div>
                             <input type="range" id="slide-qy4" min="5" max="30" step="1" value="12" oninput="actualizarEP04()">
+                        </div>
+                    </div>
+
+                    <!-- Resultados Interactivos -->
+                    <div class="results-grid">
+                        <div class="result-card">
+                            <span class="res-title">Velocidad (m/s)</span>
+                            <span class="res-val" style="font-size: 0.95rem; font-weight: 700; margin: 0.4rem 0;" id="res-v4">X: 0.17 | Y: 0.16</span>
+                            <span class="res-unit">Ejes X / Y</span>
+                        </div>
+                        <div class="result-card">
+                            <span class="res-title">Tiempo Despl.</span>
+                            <span class="res-val" style="font-size: 0.95rem; font-weight: 700; margin: 0.4rem 0;" id="res-t4">X: 2.4s | Y: 1.3s</span>
+                            <span class="res-unit">Ejes X / Y</span>
+                        </div>
+                        <div class="result-card highlight">
+                            <span class="res-title">Tiempo Ciclo</span>
+                            <span class="res-val" id="res-ttotal4">7.22</span>
+                            <span class="res-unit">Segundos (s)</span>
                         </div>
                     </div>
 
