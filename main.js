@@ -21,6 +21,69 @@ gsap.from(".gsap-hero-right", {
     delay: 0.3
 });
 
+// Parallax interactivo y 3D en el Hero al mover el mouse
+const heroSection = document.querySelector('.hero-section');
+const blobCard = document.querySelector('.blob-card');
+const blobLeft = document.querySelector('.blob-1');
+const blobRight = document.querySelector('.blob-2');
+
+if (heroSection && blobCard) {
+    heroSection.addEventListener('mousemove', (e) => {
+        const { clientX, clientY } = e;
+        const { width, height, left, top } = heroSection.getBoundingClientRect();
+        
+        // Coordenadas relativas de -1 a 1
+        const x = (clientX - left - width / 2) / (width / 2);
+        const y = (clientY - top - height / 2) / (height / 2);
+
+        // Rotar tarjeta en 3D
+        gsap.to(blobCard, {
+            rotateY: x * 15, // max 15deg
+            rotateX: -y * 15,
+            x: x * 15,
+            y: y * 15,
+            duration: 0.6,
+            ease: "power2.out"
+        });
+
+        // Mover los blobs de fondo en direcciones opuestas para profundidad
+        if (blobLeft) {
+            gsap.to(blobLeft, {
+                x: x * -30,
+                y: y * -30,
+                duration: 0.8,
+                ease: "power2.out"
+            });
+        }
+        if (blobRight) {
+            gsap.to(blobRight, {
+                x: x * 20,
+                y: y * 20,
+                duration: 0.8,
+                ease: "power2.out"
+            });
+        }
+    });
+
+    // Resetear al salir
+    heroSection.addEventListener('mouseleave', () => {
+        gsap.to(blobCard, {
+            rotateX: 0,
+            rotateY: 0,
+            x: 0,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out"
+        });
+        if (blobLeft) {
+            gsap.to(blobLeft, { x: 0, y: 0, duration: 0.8, ease: "power3.out" });
+        }
+        if (blobRight) {
+            gsap.to(blobRight, { x: 0, y: 0, duration: 0.8, ease: "power3.out" });
+        }
+    });
+}
+
 // Animación al hacer Scroll en las secciones
 document.querySelectorAll('.exercise-section').forEach(section => {
     gsap.to(section, {
@@ -68,27 +131,17 @@ let chart1, chart2, chart3, chart4;
 // ==========================================
 let canvas1 = document.getElementById('canvas-ep01');
 let ctx1 = canvas1.getContext('2d');
-let animEP01 = { fingersX: 40, bottleY: 120, state: 'idle' }; // idle, closing, lifting
+let animEP01 = { fingersX: 40, bottleY: 120, state: 'idle' };
 
 function drawEP01() {
     ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
-    
-    // Dibujar base del brazo robótico
     ctx1.fillStyle = '#2d4a43';
-    ctx1.fillRect(100, 20, 200, 20); // Viga superior
-    
-    // Dedos de la garra
+    ctx1.fillRect(100, 20, 200, 20);
     ctx1.fillStyle = '#8da89b';
-    // Dedo Izquierdo
     ctx1.fillRect(100 + animEP01.fingersX, 40, 15, 60);
-    // Dedo Derecho
     ctx1.fillRect(285 - animEP01.fingersX, 40, 15, 60);
-
-    // Botella de Vidrio
     ctx1.fillStyle = '#d4a373';
-    // Cuerpo de la botella
     ctx1.fillRect(175, animEP01.bottleY, 50, 90);
-    // Cuello de la botella
     ctx1.fillRect(190, animEP01.bottleY - 30, 20, 30);
 }
 
@@ -96,14 +149,12 @@ function simularEP01() {
     if (animEP01.state !== 'idle') return;
     animEP01.state = 'closing';
     
-    // Animación de cerrar garras
     gsap.to(animEP01, {
         fingersX: 65, 
         duration: 0.8,
         onUpdate: drawEP01,
         onComplete: () => {
             animEP01.state = 'lifting';
-            // Animación de levantar botella
             gsap.to(animEP01, {
                 bottleY: 70,
                 duration: 1.2,
@@ -204,12 +255,9 @@ let animEP02 = { angle: 0.3, pieceY: 130, state: 'idle' };
 
 function drawEP02() {
     ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
-    
-    // Actuador base
     ctx2.fillStyle = '#2d4a43';
     ctx2.fillRect(175, 20, 50, 60);
 
-    // Eslabones rotativos (garra angular)
     ctx2.save();
     ctx2.translate(185, 80);
     ctx2.rotate(-animEP02.angle);
@@ -224,7 +272,6 @@ function drawEP02() {
     ctx2.fillRect(-5, 0, 15, 60);
     ctx2.restore();
 
-    // Pieza
     ctx2.fillStyle = '#d4a373';
     ctx2.fillRect(180, animEP02.pieceY, 40, 40);
 }
@@ -265,7 +312,6 @@ function simularEP02() {
                 });
             } else {
                 animEP02.state = 'dropping';
-                // La garra sube sola y la pieza cae por falta de fuerza
                 gsap.to(animEP02, {
                     angle: 0.3,
                     duration: 0.3,
@@ -385,20 +431,16 @@ let animEP03 = { gantryX: 80, carriageY: 80, state: 'idle' };
 function drawEP03() {
     ctx3.clearRect(0, 0, canvas3.width, canvas3.height);
     
-    // Dibujar raíles guías
     ctx3.strokeStyle = '#f0ebe1';
     ctx3.lineWidth = 6;
-    // Raíl X
     ctx3.beginPath();
     ctx3.moveTo(40, 50);
     ctx3.lineTo(360, 50);
     ctx3.stroke();
 
-    // Puente móvil X
     ctx3.fillStyle = '#2d4a43';
     ctx3.fillRect(animEP03.gantryX, 35, 20, 160);
 
-    // Carro móvil Y
     ctx3.fillStyle = '#d4a373';
     ctx3.fillRect(animEP03.gantryX - 5, animEP03.carriageY, 30, 30);
 }
@@ -462,6 +504,7 @@ function initChart03() {
     });
 }
 
+// Update Chart 03
 function updateChart03(m) {
     const FS = 2.0;
     const data = [];
@@ -483,14 +526,12 @@ let animEP04 = { x: 50, y: 180, step: 0 };
 function drawEP04() {
     ctx4.clearRect(0, 0, canvas4.width, canvas4.height);
 
-    // Dibujar trayecto de referencia (Ciclo)
     ctx4.strokeStyle = '#f0ebe1';
     ctx4.lineWidth = 2;
     ctx4.setLineDash([5, 5]);
     ctx4.strokeRect(50, 50, 300, 130);
     ctx4.setLineDash([]);
 
-    // Dibujar cabezal
     ctx4.fillStyle = '#2d4a43';
     ctx4.beginPath();
     ctx4.arc(animEP04.x, animEP04.y, 10, 0, Math.PI * 2);
@@ -510,20 +551,13 @@ function simularEP04() {
     const vy = Qy / Ay;
     const ty = 0.2 / vy;
 
-    // Escalar la velocidad en la animación proporcionalmente
-    const tScale = 0.5; // Multiplicador para acelerar la vista del ciclo
+    const tScale = 0.5;
 
     const tl = gsap.timeline({ onUpdate: drawEP04 });
-    // Reset
     tl.to(animEP04, { x: 50, y: 180, duration: 0 });
-    
-    // X+ (Derecha)
     tl.to(animEP04, { x: 350, duration: tx * tScale, ease: "none" });
-    // Y+ (Arriba)
     tl.to(animEP04, { y: 50, duration: ty * tScale, ease: "none" });
-    // Y- (Abajo)
     tl.to(animEP04, { y: 180, duration: ty * tScale, ease: "none" });
-    // X- (Izquierda)
     tl.to(animEP04, { x: 50, duration: tx * tScale, ease: "none" });
 }
 
@@ -618,7 +652,6 @@ function selectComponent(key) {
     const data = componentsData[key];
     const panel = document.getElementById('db-details');
     
-    // Animación de salida y cambio de contenido
     gsap.to(panel, {
         opacity: 0,
         y: 10,
@@ -626,8 +659,6 @@ function selectComponent(key) {
         onComplete: () => {
             document.getElementById('db-detail-title').textContent = data.title;
             document.getElementById('db-detail-desc').textContent = data.desc;
-            
-            // Animación de entrada
             gsap.to(panel, {
                 opacity: 1,
                 y: 0,
@@ -641,19 +672,16 @@ function selectComponent(key) {
 // CARGA INICIAL
 // ==========================================
 window.onload = () => {
-    // Canvas iniciales
     drawEP01();
     drawEP02();
     drawEP03();
     drawEP04();
 
-    // Inicializar Gráficos
     initChart01();
     initChart02();
     initChart03();
     initChart04();
 
-    // Actualizar datos
     actualizarEP01();
     actualizarEP02();
     actualizarEP03();

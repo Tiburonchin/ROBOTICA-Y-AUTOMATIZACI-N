@@ -214,7 +214,7 @@ h1, h2, h3, h4, .nav-logo {
     height: 18px;
 }
 
-/* Columna Gráfica Hero */
+/* Columna Gráfica Hero con 3D habilitado */
 .hero-graphic {
     position: relative;
     display: flex;
@@ -226,6 +226,7 @@ h1, h2, h3, h4, .nav-logo {
     position: relative;
     width: 320px;
     height: 320px;
+    perspective: 1000px; /* Habilita el espacio 3D */
 }
 
 .blob {
@@ -277,6 +278,7 @@ h1, h2, h3, h4, .nav-logo {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 5;
+    transform-style: preserve-3d; /* Permite efecto de inclinación 3D */
 }
 
 .card-icon {
@@ -405,6 +407,47 @@ h1, h2, h3, h4, .nav-logo {
     position: absolute;
     left: 0;
     top: -2px;
+}
+
+/* Caja de Resultados Analíticos PDF */
+.pdf-results-box {
+    background-color: var(--white);
+    border: 1px solid var(--accent-terracotta);
+    border-left: 5px solid var(--accent-terracotta);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+}
+
+.pdf-results-box h4 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-green);
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+}
+
+.pdf-results-box h4 svg {
+    width: 18px;
+    height: 18px;
+    color: var(--accent-terracotta);
+}
+
+.pdf-res-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    font-size: 0.95rem;
+}
+
+.pdf-res-grid span {
+    color: var(--text-light);
+}
+
+.pdf-res-grid strong {
+    color: var(--primary-green);
+    font-weight: 700;
 }
 
 /* Resolución Matemática Pasos */
