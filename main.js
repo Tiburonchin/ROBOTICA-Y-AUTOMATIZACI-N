@@ -21,13 +21,22 @@ gsap.from(".gsap-hero-right", {
     delay: 0.3
 });
 
-// Parallax interactivo y 3D en el Hero al mover el mouse
-const heroSection = document.querySelector('.hero-section');
-const blobCard = document.querySelector('.blob-card');
-const blobLeft = document.querySelector('.blob-1');
-const blobRight = document.querySelector('.blob-2');
+// Slideshow del Hero
+let currentSlide = 0;
+const slides = document.querySelectorAll('.hero-slide-img');
+if (slides.length > 0) {
+    setInterval(() => {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+    }, 4000); // Cambia cada 4 segundos
+}
 
-if (heroSection && blobCard) {
+// Parallax interactivo y 3D en el Hero al mover el mouse (aplicado al contenedor del slideshow)
+const heroSection = document.querySelector('.hero-section');
+const slideshowContainer = document.querySelector('.hero-slideshow-container');
+
+if (heroSection && slideshowContainer) {
     heroSection.addEventListener('mousemove', (e) => {
         const { clientX, clientY } = e;
         const { width, height, left, top } = heroSection.getBoundingClientRect();
@@ -36,8 +45,8 @@ if (heroSection && blobCard) {
         const x = (clientX - left - width / 2) / (width / 2);
         const y = (clientY - top - height / 2) / (height / 2);
 
-        // Rotar tarjeta en 3D
-        gsap.to(blobCard, {
+        // Rotar contenedor en 3D
+        gsap.to(slideshowContainer, {
             rotateY: x * 15, // max 15deg
             rotateX: -y * 15,
             x: x * 15,
@@ -45,29 +54,11 @@ if (heroSection && blobCard) {
             duration: 0.6,
             ease: "power2.out"
         });
-
-        // Mover los blobs de fondo en direcciones opuestas para profundidad
-        if (blobLeft) {
-            gsap.to(blobLeft, {
-                x: x * -30,
-                y: y * -30,
-                duration: 0.8,
-                ease: "power2.out"
-            });
-        }
-        if (blobRight) {
-            gsap.to(blobRight, {
-                x: x * 20,
-                y: y * 20,
-                duration: 0.8,
-                ease: "power2.out"
-            });
-        }
     });
 
     // Resetear al salir
     heroSection.addEventListener('mouseleave', () => {
-        gsap.to(blobCard, {
+        gsap.to(slideshowContainer, {
             rotateX: 0,
             rotateY: 0,
             x: 0,
@@ -75,12 +66,6 @@ if (heroSection && blobCard) {
             duration: 0.8,
             ease: "power3.out"
         });
-        if (blobLeft) {
-            gsap.to(blobLeft, { x: 0, y: 0, duration: 0.8, ease: "power3.out" });
-        }
-        if (blobRight) {
-            gsap.to(blobRight, { x: 0, y: 0, duration: 0.8, ease: "power3.out" });
-        }
     });
 }
 
@@ -504,7 +489,6 @@ function initChart03() {
     });
 }
 
-// Update Chart 03
 function updateChart03(m) {
     const FS = 2.0;
     const data = [];
